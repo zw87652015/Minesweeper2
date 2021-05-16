@@ -11,6 +11,11 @@ public class GamePanel extends JPanel {
     private int[][] chessboard;
     private final Random random = new Random();
 
+    private String id="";
+    public String getId() {
+        return id;
+    }
+
     /**
      * 初始化一个具有指定行列数格子、并埋放了指定雷数的雷区。
      *

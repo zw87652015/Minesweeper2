@@ -4,10 +4,15 @@ import entity.GridStatus;
 import minesweeper.MainFrame;
 
 import java.awt.*;
+import java.util.Date;
 
 public class GridComponent extends BasicComponent {
     public static int gridSize = 30;
 
+    private String id="";
+    public String getId() {
+        return id;
+    }
 
     private int row;
     private int col;
@@ -15,6 +20,7 @@ public class GridComponent extends BasicComponent {
     private int content = 0;
 
     public GridComponent(int x, int y) {
+        this.id=new Date().toString();
         this.setSize(gridSize, gridSize);
         this.row = x;
         this.col = y;
