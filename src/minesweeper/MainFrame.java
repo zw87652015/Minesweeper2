@@ -1,6 +1,5 @@
 package minesweeper;
 
-
 import components.GridComponent;
 import controller.GameController;
 import entity.Player;
