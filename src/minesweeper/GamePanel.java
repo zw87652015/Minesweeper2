@@ -1,19 +1,38 @@
 package minesweeper;
 
 import components.GridComponent;
+import entity.GridStatus;
 
 import javax.swing.*;
+import javax.swing.plaf.PanelUI;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Random;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements Serializable{
     private GridComponent[][] mineField;
     private int[][] chessboard;
     private final Random random = new Random();
+    private int xCount, yCount, mineCount;
 
     private String id="";
     public String getId() {
         return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    public int getXCount() {
+        return xCount;
+    }
+    public int getYCount() {
+        return yCount;
+    }
+    public int getMineCount() {
+        return mineCount;
+    }
+    public GridComponent[][] getMineField() {
+        return mineField;
     }
 
     /**
@@ -24,6 +43,9 @@ public class GamePanel extends JPanel {
      * @param mineCount mine count
      */
     public GamePanel(int xCount, int yCount, int mineCount) {
+        this.xCount=xCount;
+        this.yCount=yCount;
+        this.mineCount=mineCount;
         this.setVisible(true);
         this.setFocusable(true);
         this.setLayout(null);
@@ -37,7 +59,6 @@ public class GamePanel extends JPanel {
 
     public void initialGame(int xCount, int yCount, int mineCount) {
         mineField = new GridComponent[xCount][yCount];
-
         generateChessBoard(xCount, yCount, mineCount);
 
         for (int i = 0; i < xCount; i++) {
@@ -49,6 +70,7 @@ public class GamePanel extends JPanel {
                 this.add(mineField[i][j]);
             }
         }
+        this.id=mineField[0][0].getId();
     }
 
 

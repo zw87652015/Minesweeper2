@@ -2,6 +2,8 @@ package components;
 
 import entity.GridStatus;
 import minesweeper.MainFrame;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import java.awt.*;
 import java.util.Date;
@@ -19,6 +21,22 @@ public class GridComponent extends BasicComponent {
     private GridStatus status = GridStatus.Covered;
     private int content = 0;
 
+    public void addListener(){
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if(e.getButton()==1){
+
+                    onMouseLeftClicked();
+                }
+                if(e.getButton()==3){
+                    onMouseRightClicked();
+                }
+            }
+        });
+    }
+
     public GridComponent(int x, int y) {
         this.id=new Date().toString();
         this.setSize(gridSize, gridSize);
@@ -28,11 +46,11 @@ public class GridComponent extends BasicComponent {
 
     @Override
     public void onMouseLeftClicked() {
-        System.out.printf("Gird (%d,%d) is left-clicked.\n", row, col);
+        //System.out.printf("Gird (%d,%d) is left-clicked.\n", row, col);
         if (this.status == GridStatus.Covered) {
             this.status = GridStatus.Clicked;
             repaint();
-            MainFrame.controller.nextTurn();
+            MainFrame.controllerMap.get(id).nextTurn();
         }
 
         //TODO: 在左键点击一个格子的时候，还需要做什么？
@@ -40,11 +58,11 @@ public class GridComponent extends BasicComponent {
 
     @Override
     public void onMouseRightClicked() {
-        System.out.printf("Gird (%d,%d) is right-clicked.\n", row, col);
+        //System.out.printf("Gird (%d,%d) is right-clicked.\n", row, col);
         if (this.status == GridStatus.Covered) {
             this.status = GridStatus.Flag;
             repaint();
-            MainFrame.controller.nextTurn();
+            MainFrame.controllerMap.get(id).nextTurn();
         }
 
         //TODO: 在右键点击一个格子的时候，还需要做什么？

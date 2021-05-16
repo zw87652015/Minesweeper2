@@ -1,8 +1,9 @@
 package entity;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Player {
+public class Player implements Serializable{
     private static Random ran = new Random();
 
     private String userName;

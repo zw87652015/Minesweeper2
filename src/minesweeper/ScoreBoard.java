@@ -3,13 +3,15 @@ package minesweeper;
 import components.GridComponent;
 import entity.Player;
 
+import java.io.Serializable;
+
 import javax.swing.*;
 
 /**
  * 此类的对象是一个计分板容器，通过传入玩家对象，
  * 可以用update()方法实时更新玩家的分数以及失误数。
  */
-public class ScoreBoard extends JPanel {
+public class ScoreBoard extends JPanel implements Serializable{
 
     Player p1;
     Player p2;

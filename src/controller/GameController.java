@@ -1,13 +1,13 @@
 package controller;
 
 import minesweeper.GamePanel;
+
+import java.io.Serializable;
+
 import entity.Player;
 import minesweeper.ScoreBoard;
 
-
-
-
-public class GameController {
+public class GameController implements Serializable {
 
     private Player p1;
     private Player p2;
@@ -17,9 +17,14 @@ public class GameController {
     private GamePanel gamePanel;
     private ScoreBoard scoreBoard;
 
-    public GameController(Player p1, Player p2) {
+    private String id;
+    private int numberOfPlayers=2;
+
+    public GameController(Player p1, Player p2, GamePanel panel) {
+        this.id=panel.getId();
         this.init(p1, p2);
         this.onTurn = p1;
+        this.numberOfPlayers=2;
     }
 
     /**
@@ -48,7 +53,7 @@ public class GameController {
         } else if (onTurn == p2) {
             onTurn = p1;
         }
-        System.out.println("Now it is " + onTurn.getUserName() + "'s turn.");
+        //System.out.println("Now it is " + onTurn.getUserName() + "'s turn.");
         scoreBoard.update();
         //TODO: 在每个回合结束的时候，还需要做什么 (例如...检查游戏是否结束？)
 
@@ -73,6 +78,10 @@ public class GameController {
         return p2;
     }
 
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+
     public GamePanel getGamePanel() {
         return gamePanel;
     }
@@ -89,6 +98,13 @@ public class GameController {
         this.scoreBoard = scoreBoard;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public void readFileData(String fileName) {
         //todo: read date from file

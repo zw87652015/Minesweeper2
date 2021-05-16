@@ -3,20 +3,23 @@ package minesweeper;
 import components.GridComponent;
 import controller.GameController;
 import entity.Player;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import java.util.HashMap;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
-    public static GameController controller;
+    public static HashMap<String, GameController> controllerMap = new HashMap<>();
+    public static int frameCount=0;
     private int xCount;
     private int yCount;
     private int mineCount;
     private int numberOfPlayers;
+    private GameController controller;
 
     private JPanel jp;
     private JTextField selectLevel, selectNumberOfPlayers;
@@ -25,7 +28,6 @@ public class MainFrame extends JFrame {
     private JRadioButton basic, intermediate, advanced, customized, twoPlayers, customizedPlayers;
     private JButton startButton, loadButton, OK;
 
-    private String id="";
     private int level=1;//1, 2, 3, 4 for basic, intermediate, advanced and customized, respectively.
 
     private class RadioButtonListener implements ActionListener {
@@ -102,8 +104,10 @@ public class MainFrame extends JFrame {
                     Player p1 = new Player();
                     Player p2 = new Player();
 
-                    GameController controller = new GameController(p1, p2);
+
                     GamePanel gamePanel = new GamePanel(xCount, yCount, mineCount);
+                    GameController controller = new GameController(p1, p2, gamePanel);
+                    MainFrame.controllerMap.put(controller.getId(), controller);
                     controller.setGamePanel(gamePanel);
                     ScoreBoard scoreBoard = new ScoreBoard(p1, p2, xCount, yCount);
                     controller.setScoreBoard(scoreBoard);
@@ -112,34 +116,33 @@ public class MainFrame extends JFrame {
                     frame.add(gamePanel);
                     frame.add(scoreBoard);
 
-
                     JButton clickBtn = new JButton("Click");
                     clickBtn.setSize(80, 20);
                     clickBtn.setLocation(5, gamePanel.getHeight() + scoreBoard.getHeight());
                     frame.add(clickBtn);
                     clickBtn.addActionListener(e -> {
                         String fileName = JOptionPane.showInputDialog(this, "input here");
-                        System.out.println("fileName :"+fileName);
 
                         frame.setVisible(true);
                         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-                        //            controller.readFileData(fileName);
-                        //            controller.writeDataToFile(fileName);
                     });
 
                     setVisible(false);
-                    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                    if(frameCount==1) {
+                        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                    }
                 });
             }
+
             if(ae.getSource() == loadButton) {
-                /*
                 JFileChooser jfc = new JFileChooser();
                 jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 jfc.showOpenDialog(new JLabel());
                 File file = jfc.getSelectedFile();
-                DuDang.load(file);
-                */
+                if(file!=null) {
+                    dispose();
+                    GameSaver.load(file);
+                }
             }
         }
     }
@@ -247,13 +250,65 @@ public class MainFrame extends JFrame {
         startButton = new JButton("Start Game!");
         jp.add(startButton);
         startButton.addActionListener(listener);
+        loadButton = new JButton("Load game...");
+        jp.add(loadButton);
+        loadButton.addActionListener(listener);
 
         add(jp);
     }
 
-    public MainFrame(int xCount, int yCount, int mineCount) {
+    public void addMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
 
-        this.setTitle("2021 CS102A Project Demo 2");
+        JMenu menu_game = new JMenu("Game");
+        menuBar.add(menu_game);
+
+        JMenuItem menuItem_newGame = new JMenuItem("New game...");
+        menuItem_newGame.addActionListener((e) -> {
+            dispose();
+            MainFrame.frameCount--;
+            SwingUtilities.invokeLater(() -> {
+                MainFrame starterFrame = new MainFrame("stargerFrame");
+                starterFrame.setVisible(true);
+            });
+        });
+        menu_game.add(menuItem_newGame);
+
+        JMenuItem menuItem_load = new JMenuItem("Load...");
+        menuItem_load.addActionListener((e) -> {
+            JFileChooser jfc = new JFileChooser();
+            jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            jfc.showOpenDialog(new JLabel());
+            File file = jfc.getSelectedFile();
+            if(file!=null) {
+                GameSaver.load(file);
+            }
+        });
+        menu_game.add(menuItem_load);
+
+        JMenuItem menuItem_save = new JMenuItem("Save...");
+        menuItem_save.addActionListener((e) -> {
+            JFileChooser jfc = new JFileChooser();
+            jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            jfc.showSaveDialog(new JLabel());
+            File file = jfc.getSelectedFile();
+            if(file!=null) {
+                String fileName = JOptionPane.showInputDialog(this, "Please enter a save file name:");
+                GameSaver.save(controller, file.getPath(), fileName);
+            }
+        });
+        menu_game.add(menuItem_save);
+
+        JMenuItem menuItem_endgame = new JMenuItem("Exit");
+        menuItem_endgame.addActionListener((e) -> {
+            System.exit(0);
+        });
+        menu_game.add(menuItem_endgame);
+    }
+
+    public MainFrame(int xCount, int yCount, int mineCount) {
+        frameCount++;
         this.setLayout(null);
         this.setSize(yCount * GridComponent.gridSize + 20, xCount * GridComponent.gridSize + 200);
         this.setLocationRelativeTo(null);
@@ -261,15 +316,18 @@ public class MainFrame extends JFrame {
         Player p1 = new Player();
         Player p2 = new Player();
 
-        controller = new GameController(p1, p2);
         GamePanel gamePanel = new GamePanel(xCount, yCount, mineCount);
+        controller = new GameController(p1, p2, gamePanel);
+        this.setTitle("Mine Sweeper - ID: "+controller.getId());
+        MainFrame.controllerMap.put(controller.getId(), controller);
         controller.setGamePanel(gamePanel);
         ScoreBoard scoreBoard = new ScoreBoard(p1, p2, xCount, yCount);
         controller.setScoreBoard(scoreBoard);
 
+        this.addMenuBar();
+
         this.add(gamePanel);
         this.add(scoreBoard);
-
 
         JButton clickBtn = new JButton("Click");
         clickBtn.setSize(80, 20);
@@ -277,14 +335,30 @@ public class MainFrame extends JFrame {
         add(clickBtn);
         clickBtn.addActionListener(e -> {
             String fileName = JOptionPane.showInputDialog(this, "input here");
-            System.out.println("fileName :"+fileName);
-
-//            controller.readFileData(fileName);
-//            controller.writeDataToFile(fileName);
         });
 
         this.setVisible(true);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        if(MainFrame.frameCount==1) {
+            this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        }
+    }
 
+    public MainFrame(GameController controller) {
+        frameCount++;
+        this.setTitle("Mine Sweeper - ID: "+controller.getId());
+        this.setLayout(null);
+        this.setSize(controller.getGamePanel().getYCount() * GridComponent.gridSize + 20, controller.getGamePanel().getXCount() * GridComponent.gridSize + 200);
+        this.setLocationRelativeTo(null);
+        this.addMenuBar();
+        MainFrame.controllerMap.put(controller.getId(), controller);
+        for(GridComponent[] gcArray : controller.getGamePanel().getMineField()) {
+            for(GridComponent gc : gcArray) {
+                gc.addListener();
+            }
+        }
+
+        this.controller=controller;
+        this.add(controller.getGamePanel());
+        this.add(controller.getScoreBoard());
     }
 }
