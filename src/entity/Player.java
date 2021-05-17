@@ -43,6 +43,7 @@ public class Player implements Serializable{
      * 为玩家增加一次失误数。
      */
     public void addMistake() { mistake++; }
+    public void setScore(int score){this.score=score;}
 
 
     public int getScore(){
