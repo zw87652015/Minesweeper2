@@ -26,6 +26,7 @@ public class GameController implements Serializable {
     private int numberOfPlayers;
 
     public GameController(ArrayList<Player> players,GamePanel gamePanel) {
+        this.id=gamePanel.getId();
         this.gamePanel=gamePanel;
         this.init( players);
         if (players.size()>0){
