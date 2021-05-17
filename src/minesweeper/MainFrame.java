@@ -349,6 +349,13 @@ public class MainFrame extends JFrame {
         this.add(gamePanel);
         this.add(scoreBoard);
 
+        JButton cheatButton = new JButton("Cheat"); //加入透视
+        cheatButton.setSize(80, 20);
+        cheatButton.setLocation(205, gamePanel.getHeight() + scoreBoard.getHeight());
+
+        add(cheatButton);
+        cheatButton.addActionListener( new listenCheat() );
+
         JButton clickBtn = new JButton("Click");
         clickBtn.setSize(80, 20);
         clickBtn.setLocation(5, gamePanel.getHeight() + scoreBoard.getHeight());

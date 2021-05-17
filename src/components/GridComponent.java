@@ -56,14 +56,14 @@ public class GridComponent extends BasicComponent {
             this.status = GridStatus.Clicked;
 
             if (this.getContent()==-1&&MainFrame.clickNum==1){
-                MainFrame.controllerMap.get().setUsedStep(MainFrame.controller.getUsedStep()-1);
-                MainFrame.controller.getGamePanel().renewGamePanel(this.row,this.col);
-                MainFrame.controller.getGamePanel().getGrid(this.row,this.col).onMouseLeftClicked();
+                MainFrame.controllerMap.get(this.id).setUsedStep(MainFrame.controllerMap.get(this.id).getUsedStep()-1);
+                MainFrame.controllerMap.get(this.id).getGamePanel().renewGamePanel(this.row,this.col);
+                MainFrame.controllerMap.get(this.id).getGamePanel().getGrid(this.row,this.col).onMouseLeftClicked();
                 MainFrame.clickNum=1;
             }
             else  if (this.getContent()==-1){
-                MainFrame.controller.getOnTurnPlayer().costScore();
-                MainFrame.controller.getOnTurnPlayer().addMistake();
+                MainFrame.controllerMap.get(this.id).getOnTurnPlayer().costScore();
+                MainFrame.controllerMap.get(this.id).getOnTurnPlayer().addMistake();
                 MainFrame.findedMine++;
             }repaint();
             MainFrame.controllerMap.get(id).nextTurn();
@@ -80,10 +80,10 @@ public class GridComponent extends BasicComponent {
             this.status = GridStatus.Flag;
             repaint();
             if (this.getContent()!=-1){
-                MainFrame.controller.getOnTurnPlayer().addMistake();}
+                MainFrame.controllerMap.get(this.id).getOnTurnPlayer().addMistake();}
             if (this.getContent()==-1){
                 MainFrame.findedMine++;
-                MainFrame.controller.getOnTurnPlayer().addScore();}
+                MainFrame.controllerMap.get(this.id).getOnTurnPlayer().addScore();}
             MainFrame.controllerMap.get(id).nextTurn();
 
         }
