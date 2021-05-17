@@ -56,7 +56,7 @@ public class GridComponent extends BasicComponent {
             this.status = GridStatus.Clicked;
 
             if (this.getContent()==-1&&MainFrame.clickNum==1){
-                MainFrame.controller.setUsedStep(MainFrame.controller.getUsedStep()-1);
+                MainFrame.controllerMap.get().setUsedStep(MainFrame.controller.getUsedStep()-1);
                 MainFrame.controller.getGamePanel().renewGamePanel(this.row,this.col);
                 MainFrame.controller.getGamePanel().getGrid(this.row,this.col).onMouseLeftClicked();
                 MainFrame.clickNum=1;

@@ -26,6 +26,7 @@ public class MainFrame extends JFrame {
     public static boolean whetherCheat=false;
     public static int findedMine=0;
     public static int clickNum=0;
+    public static  int stepCount=2;
 
     private JPanel jp;
     private JTextField selectLevel, selectNumberOfPlayers;
@@ -114,7 +115,7 @@ public class MainFrame extends JFrame {
                     }
 
                     GamePanel gamePanel = new GamePanel(xCount, yCount, mineCount);
-                    controller = new GameController(playersArray);
+                    controller = new GameController(playersArray,gamePanel);
                     MainFrame.controllerMap.put(controller.getId(), controller);
                     controller.setGamePanel(gamePanel);
                     ScoreBoard scoreBoard = new ScoreBoard(playersArray, xCount, yCount);
@@ -328,15 +329,19 @@ public class MainFrame extends JFrame {
         this.setSize(yCount * GridComponent.gridSize + 20, xCount * GridComponent.gridSize + 200);
         this.setLocationRelativeTo(null);
 
-        Player p1 = new Player();
-        Player p2 = new Player();
+        ArrayList<Player> playersArray2=new ArrayList<Player>();
+        for (int i=0;i<numberOfPlayers;i++){
+            Player p1=new Player();
+            if (!playersArray2.contains(p1)) {playersArray2.add(p1);}
+        }
+
 
         GamePanel gamePanel = new GamePanel(xCount, yCount, mineCount);
-        controller = new GameController(p1, p2, gamePanel);
+        controller = new GameController(playersArray2, gamePanel);
         this.setTitle("Mine Sweeper - ID: "+controller.getId());
         MainFrame.controllerMap.put(controller.getId(), controller);
         controller.setGamePanel(gamePanel);
-        ScoreBoard scoreBoard = new ScoreBoard(p1, p2, xCount, yCount);
+        ScoreBoard scoreBoard = new ScoreBoard(playersArray2, xCount, yCount);
         controller.setScoreBoard(scoreBoard);
 
         this.addMenuBar();
@@ -404,4 +409,6 @@ public class MainFrame extends JFrame {
     public  int getxCount(){return xCount;}
     public  int getyCount(){return this.yCount;}
     public int getMineCount(){return this.mineCount;}
+    public int getNumberOfPlayers(){return this.numberOfPlayers;}
+    public GameController getController(){return this.controller;}
 }

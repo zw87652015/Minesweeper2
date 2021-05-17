@@ -23,9 +23,10 @@ public class GameController implements Serializable {
     ArrayList<Player> players2=new ArrayList<>();
 
     private String id;
-    private int numberOfPlayers=2;
+    private int numberOfPlayers;
 
-    public GameController(ArrayList<Player> players) {
+    public GameController(ArrayList<Player> players,GamePanel gamePanel) {
+        this.gamePanel=gamePanel;
         this.init( players);
         if (players.size()>0){
             this.onTurn = players.get(0);}
@@ -56,7 +57,7 @@ public class GameController implements Serializable {
         if (usedStep>=MainFrame.stepCount){
             players2=scoreOrder(players);
             //判断获胜 //非单2人提前获胜
-            if (MainFrame.playerCount>1&&
+            if (players.size()>1&&
                     players2.get(0).getScore()-players2.get(1).getScore()>gamePanel.getMineCount()-MainFrame.findedMine) {
                 JLabel jLabel=new JLabel();
                 jLabel.setSize(400,100);

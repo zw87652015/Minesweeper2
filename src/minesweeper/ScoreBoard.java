@@ -22,14 +22,12 @@ public class ScoreBoard extends JPanel implements Serializable{
      * 通过进行游戏的玩家来初始化计分板。这里只考虑了两个玩家的情况。
      * 如果想要2-4人游戏甚至更多，请自行修改(建议把所有玩家存在ArrayList)~
      *
-     * @param p1 玩家1
-     * @param p2 玩家2
      */
     public ScoreBoard(ArrayList<Player> players, int xCount, int yCount) {
         this.add(new JLabel("Score Board - "));
         this.setSize(yCount * GridComponent.gridSize, 120);
         this.setLocation(0, xCount * GridComponent.gridSize);
-        for (int i=0;i<MainFrame.playerCount;i++){
+        for (int i=0;i<players.size();i++){
             this.labels.add(new JLabel());
         }
         this.players.addAll(players);
