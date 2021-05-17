@@ -2,7 +2,9 @@ package minesweeper;
 
 import components.GridComponent;
 import entity.Player;
-
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.io.Serializable;
 
 import javax.swing.*;
@@ -13,11 +15,8 @@ import javax.swing.*;
  */
 public class ScoreBoard extends JPanel implements Serializable{
 
-    Player p1;
-    Player p2;
-
-    JLabel score1 = new JLabel();
-    JLabel score2 = new JLabel();
+    ArrayList<Player> players=new ArrayList<Player>();
+    ArrayList<JLabel> labels =new ArrayList<JLabel>();
 
     /**
      * 通过进行游戏的玩家来初始化计分板。这里只考虑了两个玩家的情况。
@@ -26,15 +25,17 @@ public class ScoreBoard extends JPanel implements Serializable{
      * @param p1 玩家1
      * @param p2 玩家2
      */
-    public ScoreBoard(Player p1, Player p2, int xCount, int yCount) {
+    public ScoreBoard(ArrayList<Player> players, int xCount, int yCount) {
         this.add(new JLabel("Score Board - "));
-        this.setSize(yCount * GridComponent.gridSize, 80);
+        this.setSize(yCount * GridComponent.gridSize, 120);
         this.setLocation(0, xCount * GridComponent.gridSize);
-
-        this.p1 = p1;
-        this.p2 = p2;
-        this.add(score1);
-        this.add(score2);
+        for (int i=0;i<MainFrame.playerCount;i++){
+            this.labels.add(new JLabel());
+        }
+        this.players.addAll(players);
+        for (int i =0;i<players.size();i++){
+            this.add(labels.get(i));
+        }
 
         this.setLayout(new BoxLayout(this, 1));
         update();
@@ -45,8 +46,10 @@ public class ScoreBoard extends JPanel implements Serializable{
      * 计分板会自动重新获取玩家的分数，并更新显示。
      */
     public void update() {
-        score1.setText(String.format("%s : %d score (+ %d mistake)", p1.getUserName(), p1.getScore(), p1.getMistake()));
-        score2.setText(String.format("%s : %d score (+ %d mistake)", p2.getUserName(), p2.getScore(), p1.getMistake()));
+        for (int i=0;i<labels.size();i++){
+            labels.get(i).setText(String.format("%s : %d score (+ %d mistake)",
+                    players.get(i).getUserName(), players.get(i).getScore(), players.get(i).getMistake()));
+        }
     }
 
 }

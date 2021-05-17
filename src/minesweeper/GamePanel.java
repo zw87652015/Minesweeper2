@@ -2,9 +2,12 @@ package minesweeper;
 
 import components.GridComponent;
 import entity.GridStatus;
-
+import controller.GameController;
+import entity.GridStatus;
 import javax.swing.*;
 import javax.swing.plaf.PanelUI;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.Random;
@@ -28,9 +31,6 @@ public class GamePanel extends JPanel implements Serializable{
     public int getYCount() {
         return yCount;
     }
-    public int getMineCount() {
-        return mineCount;
-    }
     public GridComponent[][] getMineField() {
         return mineField;
     }
@@ -51,9 +51,9 @@ public class GamePanel extends JPanel implements Serializable{
         this.setLayout(null);
         this.setBackground(Color.WHITE);
         this.setSize(GridComponent.gridSize * yCount, GridComponent.gridSize * xCount);
-
+        getInitChessBoard(xCount,yCount);
         initialGame(xCount, yCount, mineCount);
-
+        this.mineCount=mineCount;this.xCount=xCount;this.yCount=yCount;
         repaint();
     }
 
@@ -75,16 +75,58 @@ public class GamePanel extends JPanel implements Serializable{
 
 
     public void generateChessBoard(int xCount, int yCount, int mineCount) {
-        //todo: generate chessboard by your own algorithm
-        chessboard = new int[xCount][yCount];
-        for (int i = 0; i < xCount; i++) {
-            for (int j = 0; j < yCount; j++) {
-                // suppose -1 represents mine
-                chessboard[i][j] = random.nextInt(10) - 1;
+        int[][] chessboard2=new int[xCount+2][yCount+2];
+        int i=0;int x,y;
+        while(i<mineCount){
+            x=random.nextInt(xCount)+1;
+            y=random.nextInt(yCount)+1;
+            if (chessboard2[x][y]==0){chessboard2[x][y]=-1;i++;}
+        }
+        for (int m=1;m<xCount+1;m++){
+            for (int n=1;n<yCount+1;n++){
+                if (chessboard2[m][n]!=-1){chessboard2[m][n]=getMineAround(chessboard2,m,n);}
+                else {if (getMineAround(chessboard2,m,n)==8){generateChessBoard(xCount,yCount,mineCount);}}
             }
         }
+        for (int m=0;m<xCount;m++){
+            for (int n=0;n<yCount;n++){
+                chessboard[m][n]=chessboard2[m+1][n+1];
+            }
+        }}
+        public void renewGamePanel(int x,int y){
+            this.removeAll();
+            getInitChessBoard(xCount,yCount);
+            changeValue(x,y);
+            initialGame(xCount,yCount,mineCount);
+            repaint();
+        }
+        public void getInitChessBoard(int a, int b){
+            chessboard=new int[a][b];
+        }
+        public void changeValue(int x,int y){
+            chessboard[x][y]=1;
+        }
+        public static int getMineAround(int[][]chessboard, int m,int n){
+            int i=0;
+            if (chessboard[m-1][n]==-1){i++;}
+            if (chessboard[m-1][n-1]==-1){i++;}
+            if (chessboard[m-1][n+1]==-1){i++;}
+            if (chessboard[m][n-1]==-1){i++;}
+            if (chessboard[m][n+1]==-1){i++;}
+            if (chessboard[m+1][n]==-1){i++;}
+            if (chessboard[m+1][n-1]==-1){i++;}
+            if (chessboard[m+1][n+1]==-1){i++;}
+            return i;
 
-    }
+        }
+        public int getxCount(){return xCount;}
+        public int getyCount(){return yCount;}
+        public int getMineCount(){return mineCount;}
+
+
+
+
+
 
     /**
      * 获取一个指定坐标的格子。

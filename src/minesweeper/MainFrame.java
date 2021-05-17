@@ -3,7 +3,10 @@ package minesweeper;
 import components.GridComponent;
 import controller.GameController;
 import entity.Player;
-
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.*;
@@ -20,6 +23,9 @@ public class MainFrame extends JFrame {
     private int mineCount;
     private int numberOfPlayers;
     private GameController controller;
+    public static boolean whetherCheat=false;
+    public static int findedMine=0;
+    public static int clickNum=0;
 
     private JPanel jp;
     private JTextField selectLevel, selectNumberOfPlayers;
@@ -101,20 +107,29 @@ public class MainFrame extends JFrame {
                     setSize(yCount * GridComponent.gridSize + 20, xCount * GridComponent.gridSize + 200);
                     setLocationRelativeTo(null);
 
-                    Player p1 = new Player();
-                    Player p2 = new Player();
-
+                    ArrayList<Player> playersArray=new ArrayList<Player>();
+                    for (int i=0;i<numberOfPlayers;i++){
+                        Player p1=new Player();
+                        if (!playersArray.contains(p1)) {playersArray.add(p1);}
+                    }
 
                     GamePanel gamePanel = new GamePanel(xCount, yCount, mineCount);
-                    GameController controller = new GameController(p1, p2, gamePanel);
+                    controller = new GameController(playersArray);
                     MainFrame.controllerMap.put(controller.getId(), controller);
                     controller.setGamePanel(gamePanel);
-                    ScoreBoard scoreBoard = new ScoreBoard(p1, p2, xCount, yCount);
+                    ScoreBoard scoreBoard = new ScoreBoard(playersArray, xCount, yCount);
                     controller.setScoreBoard(scoreBoard);
 
                     MainFrame frame = new MainFrame(xCount, yCount, mineCount);
                     frame.add(gamePanel);
                     frame.add(scoreBoard);
+
+                    JButton cheatButton = new JButton("Cheat"); //加入透视
+                    cheatButton.setSize(80, 20);
+                    cheatButton.setLocation(205, gamePanel.getHeight() + scoreBoard.getHeight());
+
+                    add(cheatButton);
+                    cheatButton.addActionListener( new listenCheat() );
 
                     JButton clickBtn = new JButton("Click");
                     clickBtn.setSize(80, 20);
@@ -361,4 +376,32 @@ public class MainFrame extends JFrame {
         this.add(controller.getGamePanel());
         this.add(controller.getScoreBoard());
     }
+    public void setWhetherCheat(boolean whetherCheat){ MainFrame.whetherCheat =whetherCheat;}
+    public static boolean getWhetherCheat(){return whetherCheat;}
+    public  class listenCheat implements ActionListener {
+        public void actionPerformed(ActionEvent e){
+            whetherCheat= !whetherCheat;
+            for (int i=0;i<xCount;i++){
+                for (int j=0;j<yCount;j++){
+                    controller.getGamePanel().getGrid(i,j).repaint();
+
+                }
+            }
+        }
+    }
+
+    public void setxCount(int xCount){
+        this.xCount= xCount;
+    }
+
+
+    public void setyCount(int yCount){
+        this.yCount=yCount;
+    }
+    public void setMineCount(int mineCount){
+        this.mineCount=mineCount;
+    }
+    public  int getxCount(){return xCount;}
+    public  int getyCount(){return this.yCount;}
+    public int getMineCount(){return this.mineCount;}
 }
