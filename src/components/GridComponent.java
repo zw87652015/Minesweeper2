@@ -1,6 +1,7 @@
 package components;
 
 import entity.GridStatus;
+import entity.Sounds;
 import minesweeper.MainFrame;
 import controller.GameController;
 import java.awt.event.MouseAdapter;
@@ -50,6 +51,7 @@ public class GridComponent extends BasicComponent {
 
     @Override
     public void onMouseLeftClicked() {
+        Sounds.Music_dig();
         MainFrame.clickNum++;
         //System.out.printf("Gird (%d,%d) is left-clicked.\n", row, col);
         if (this.status == GridStatus.Covered) {
@@ -74,6 +76,7 @@ public class GridComponent extends BasicComponent {
 
     @Override
     public void onMouseRightClicked() {
+        Sounds.Music_plant();
         MainFrame.clickNum++;
         //System.out.printf("Gird (%d,%d) is right-clicked.\n", row, col);
         if (this.status == GridStatus.Covered) {
