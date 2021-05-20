@@ -11,5 +11,5 @@ package entity;
  * 想直接在这里列出五种状态的话，其实也行，就看你们啦~
  */
 public enum GridStatus {
-    Covered,Flag,Clicked;
+    Covered,Flag,Clicked
 }

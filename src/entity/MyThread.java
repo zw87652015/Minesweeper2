@@ -34,7 +34,7 @@ public class MyThread extends Thread{
             sourceDataLine = (SourceDataLine) AudioSystem.getLine(dataLineInfo);
             sourceDataLine.open(audioFormat);
             sourceDataLine.start(); 
-            byte tempBuffer[] = new byte[320];
+            byte[] tempBuffer = new byte[320];
             int cnt;
             while ((cnt = audioInputStream.read(tempBuffer, 0, tempBuffer.length)) != -1) {
                 if (cnt > 0) {

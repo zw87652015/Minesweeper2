@@ -64,6 +64,7 @@ public class GamePanel extends JPanel implements Serializable{
         for (int i = 0; i < xCount; i++) {
             for (int j = 0; j < yCount; j++) {
                 GridComponent gridComponent = new GridComponent(i, j);
+                gridComponent.setId(this.id);
                 gridComponent.setContent(chessboard[i][j]);
                 gridComponent.setLocation(j * GridComponent.gridSize, i * GridComponent.gridSize);
                 mineField[i][j] = gridComponent;
@@ -143,6 +144,12 @@ public class GamePanel extends JPanel implements Serializable{
             e.printStackTrace();
             return null;
         }
+    }
+    public void chainClick(int row, int col){
+        if (col!=0&&this.getGrid(row,col-1).getStatus()==GridStatus.Covered){this.getGrid(row,col-1).onMouseLeftClicked();}
+        if (col!=yCount-1&&this.getGrid(row,col+1).getStatus()==GridStatus.Covered){this.getGrid(row,col+1).onMouseLeftClicked();}
+        if (row!=0&&this.getGrid(row-1,col).getStatus()==GridStatus.Covered){this.getGrid(row-1,col).onMouseLeftClicked();}
+        if (row!=xCount-1&&this.getGrid(row+1,col).getStatus()==GridStatus.Covered){this.getGrid(row+1,col).onMouseLeftClicked();}
     }
 
     @Override

@@ -13,10 +13,11 @@ import java.util.Date;
 public class GridComponent extends BasicComponent {
     public static int gridSize = 30;
 
-    private String id="";
+    private String id;
     public String getId() {
         return id;
     }
+    public  void setId(String id){this.id=id;}
 
     private int row;
     private int col;
@@ -56,6 +57,9 @@ public class GridComponent extends BasicComponent {
         //System.out.printf("Gird (%d,%d) is left-clicked.\n", row, col);
         if (this.status == GridStatus.Covered) {
             this.status = GridStatus.Clicked;
+            if (this.getContent()==0){
+                MainFrame.controllerMap.get(this.id).getGamePanel().chainClick(this.row,this.col);
+            }
 
             if (this.getContent()==-1&&MainFrame.clickNum==1){
                 MainFrame.controllerMap.get(this.id).setUsedStep(MainFrame.controllerMap.get(this.id).getUsedStep()-1);
@@ -91,7 +95,6 @@ public class GridComponent extends BasicComponent {
 
         }
 
-        //TODO: 在右键点击一个格子的时候，还需要做什么？
     }
 
     public void draw(Graphics g) {
