@@ -18,6 +18,7 @@ public class GameController implements Serializable {
     private Player onTurn;
     private boolean whetherCheat=false;
     public  int findedMine=0;
+    public  int clickNum=0;
     private GamePanel gamePanel;
     private ScoreBoard scoreBoard;
     private int usedStep=0;
@@ -60,7 +61,7 @@ public class GameController implements Serializable {
         if (usedStep>=MainFrame.stepCount){
             players2=scoreOrder(players);
             //判断获胜 //非单2人提前获胜
-            if (players.size()>1&&
+            if (players.size()>1&&gamePanel.getMineCount()-this.findedMine!=0&&
                     players2.get(0).getScore()-players2.get(1).getScore()>gamePanel.getMineCount()-this.findedMine) {
                 JLabel jLabel=new JLabel();
                 jLabel.setSize(400,100);
@@ -116,7 +117,6 @@ public class GameController implements Serializable {
         }
 
         scoreBoard.update();
-        //TODO: 在每个回合结束的时候，还需要做什么 (例如...检查游戏是否结束？)
 
     }
     public ArrayList<Player> scoreOrder(ArrayList<Player> players){

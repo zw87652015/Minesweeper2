@@ -84,7 +84,7 @@ public class GamePanel extends JPanel implements Serializable{
         while(i<mineCount){
             x=random.nextInt(xCount)+1;
             y=random.nextInt(yCount)+1;
-            if (chessboard2[x][y]==0){chessboard2[x][y]=-1;i++;}
+            if (chessboard2[x][y]==0&&chessboard[x-1][y-1]!=1){chessboard2[x][y]=-1;i++;}
         }
         for (int m=1;m<xCount+1;m++){
             for (int n=1;n<yCount+1;n++){
@@ -96,7 +96,8 @@ public class GamePanel extends JPanel implements Serializable{
             for (int n=0;n<yCount;n++){
                 chessboard[m][n]=chessboard2[m+1][n+1];
             }
-        }}
+        }
+    }
         public void renewGamePanel(int x,int y){
             this.removeAll();
             getInitChessBoard(xCount,yCount);
@@ -149,10 +150,18 @@ public class GamePanel extends JPanel implements Serializable{
         }
     }
     public void chainClick(int row, int col){
-        if (col!=0&&this.getGrid(row,col-1).getStatus()==GridStatus.Covered){this.getGrid(row,col-1).onMouseLeftClicked();}
-        if (col!=yCount-1&&this.getGrid(row,col+1).getStatus()==GridStatus.Covered){this.getGrid(row,col+1).onMouseLeftClicked();}
-        if (row!=0&&this.getGrid(row-1,col).getStatus()==GridStatus.Covered){this.getGrid(row-1,col).onMouseLeftClicked();}
-        if (row!=xCount-1&&this.getGrid(row+1,col).getStatus()==GridStatus.Covered){this.getGrid(row+1,col).onMouseLeftClicked();}
+        if (col!=0&&this.getGrid(row,col-1).getStatus()==GridStatus.Covered){
+            MainFrame.controllerMap.get(this.id).setUsedStep(MainFrame.controllerMap.get(this.id).getUsedStep()-1);
+            this.getGrid(row,col-1).onMouseLeftClicked();}
+        if (col!=yCount-1&&this.getGrid(row,col+1).getStatus()==GridStatus.Covered){
+            MainFrame.controllerMap.get(this.id).setUsedStep(MainFrame.controllerMap.get(this.id).getUsedStep()-1);
+            this.getGrid(row,col+1).onMouseLeftClicked();}
+        if (row!=0&&this.getGrid(row-1,col).getStatus()==GridStatus.Covered){
+            MainFrame.controllerMap.get(this.id).setUsedStep(MainFrame.controllerMap.get(this.id).getUsedStep()-1);
+            this.getGrid(row-1,col).onMouseLeftClicked();}
+        if (row!=xCount-1&&this.getGrid(row+1,col).getStatus()==GridStatus.Covered){
+            MainFrame.controllerMap.get(this.id).setUsedStep(MainFrame.controllerMap.get(this.id).getUsedStep()-1);
+            this.getGrid(row+1,col).onMouseLeftClicked();}
     }
 
     @Override

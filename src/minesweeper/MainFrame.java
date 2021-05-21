@@ -28,7 +28,7 @@ public class MainFrame extends JFrame {
     private int numberOfPlayers;
     private GameController controller;
 
-    public static int clickNum=0;
+
     public static  int stepCount=2;
     private static int bgmClickCount=0, sfxClickCount=0;
     private int level=1;//1, 2, 3, 4 for basic, intermediate, advanced and customized, respectively.

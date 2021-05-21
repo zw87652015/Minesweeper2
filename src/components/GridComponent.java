@@ -53,7 +53,7 @@ public class GridComponent extends BasicComponent {
     @Override
     public void onMouseLeftClicked() {
         Sounds.Music_dig();
-        MainFrame.clickNum++;
+        MainFrame.controllerMap.get(this.id).clickNum++;
         //System.out.printf("Gird (%d,%d) is left-clicked.\n", row, col);
         if (this.status == GridStatus.Covered) {
             this.status = GridStatus.Clicked;
@@ -61,11 +61,11 @@ public class GridComponent extends BasicComponent {
                 MainFrame.controllerMap.get(this.id).getGamePanel().chainClick(this.row,this.col);
             }
 
-            if (this.getContent()==-1&&MainFrame.clickNum==1){
+            if (this.getContent()==-1&&MainFrame.controllerMap.get(this.id).clickNum==1){
                 MainFrame.controllerMap.get(this.id).setUsedStep(MainFrame.controllerMap.get(this.id).getUsedStep()-1);
                 MainFrame.controllerMap.get(this.id).getGamePanel().renewGamePanel(this.row,this.col);
                 MainFrame.controllerMap.get(this.id).getGamePanel().getGrid(this.row,this.col).onMouseLeftClicked();
-                MainFrame.clickNum=1;
+                MainFrame.controllerMap.get(this.id).clickNum=1;
             }
             else  if (this.getContent()==-1){
                 MainFrame.controllerMap.get(this.id).getOnTurnPlayer().costScore();
@@ -81,7 +81,7 @@ public class GridComponent extends BasicComponent {
     @Override
     public void onMouseRightClicked() {
         Sounds.Music_plant();
-        MainFrame.clickNum++;
+        MainFrame.controllerMap.get(this.id).clickNum++;;
         //System.out.printf("Gird (%d,%d) is right-clicked.\n", row, col);
         if (this.status == GridStatus.Covered) {
             this.status = GridStatus.Flag;
