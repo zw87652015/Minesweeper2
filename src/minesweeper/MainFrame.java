@@ -27,7 +27,7 @@ public class MainFrame extends JFrame {
     private int mineCount;
     private int numberOfPlayers;
     private GameController controller;
-    public static int findedMine=0;
+
     public static int clickNum=0;
     public static  int stepCount=2;
     private static int bgmClickCount=0, sfxClickCount=0;

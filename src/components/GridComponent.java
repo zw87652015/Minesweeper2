@@ -70,7 +70,7 @@ public class GridComponent extends BasicComponent {
             else  if (this.getContent()==-1){
                 MainFrame.controllerMap.get(this.id).getOnTurnPlayer().costScore();
                 MainFrame.controllerMap.get(this.id).getOnTurnPlayer().addMistake();
-                MainFrame.findedMine++;
+                MainFrame.controllerMap.get(this.id).findedMine++;
             }repaint();
             MainFrame.controllerMap.get(id).nextTurn();
         }
@@ -89,7 +89,7 @@ public class GridComponent extends BasicComponent {
             if (this.getContent()!=-1){
                 MainFrame.controllerMap.get(this.id).getOnTurnPlayer().addMistake();}
             if (this.getContent()==-1){
-                MainFrame.findedMine++;
+                MainFrame.controllerMap.get(this.id).findedMine++;
                 MainFrame.controllerMap.get(this.id).getOnTurnPlayer().addScore();}
             MainFrame.controllerMap.get(id).nextTurn();
 

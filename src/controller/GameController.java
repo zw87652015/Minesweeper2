@@ -17,7 +17,7 @@ public class GameController implements Serializable {
 
     private Player onTurn;
     private boolean whetherCheat=false;
-
+    public  int findedMine=0;
     private GamePanel gamePanel;
     private ScoreBoard scoreBoard;
     private int usedStep=0;
@@ -61,14 +61,14 @@ public class GameController implements Serializable {
             players2=scoreOrder(players);
             //判断获胜 //非单2人提前获胜
             if (players.size()>1&&
-                    players2.get(0).getScore()-players2.get(1).getScore()>gamePanel.getMineCount()-MainFrame.findedMine) {
+                    players2.get(0).getScore()-players2.get(1).getScore()>gamePanel.getMineCount()-this.findedMine) {
                 JLabel jLabel=new JLabel();
                 jLabel.setSize(400,100);
                 jLabel.setText(players2.get(0).getUserName()+" win"+", score and mis is "+players2.get(0).getScore()+" "+players2.get(0).getMistake());
                 this.giveWinner().add(jLabel);
                 jLabel.setLocation(100,100);
             }
-            if (gamePanel.getMineCount()==MainFrame.findedMine){
+            if (gamePanel.getMineCount()==this.findedMine){
                 if (players2.get(0).getScore()>players2.get(1).getScore()){
                     //第一名获胜
                     JLabel jLabel=new JLabel();
@@ -178,7 +178,7 @@ public class GameController implements Serializable {
         jFrame.setLocationRelativeTo(null);
         jFrame.setTitle("The Result of Game");
         jFrame.setSize(600,300);
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         jFrame.setVisible(true);
         return jFrame;
     }
