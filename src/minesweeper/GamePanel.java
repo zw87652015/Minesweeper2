@@ -12,13 +12,14 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.Random;
 
+
 public class GamePanel extends JPanel implements Serializable{
     private GridComponent[][] mineField;
     private int[][] chessboard;
     private final Random random = new Random();
     private int xCount, yCount, mineCount;
 
-    private String id="";
+    private String id;
     public String getId() {
         return id;
     }
@@ -34,6 +35,7 @@ public class GamePanel extends JPanel implements Serializable{
     public GridComponent[][] getMineField() {
         return mineField;
     }
+    private static Random ran = new Random();
 
     /**
      * 初始化一个具有指定行列数格子、并埋放了指定雷数的雷区。
@@ -43,6 +45,8 @@ public class GamePanel extends JPanel implements Serializable{
      * @param mineCount mine count
      */
     public GamePanel(int xCount, int yCount, int mineCount) {
+        this.id="PanelId"+ (ran.nextInt(9000)+1000);
+        System.out.println(this.id);
         this.xCount=xCount;
         this.yCount=yCount;
         this.mineCount=mineCount;
@@ -71,7 +75,6 @@ public class GamePanel extends JPanel implements Serializable{
                 this.add(mineField[i][j]);
             }
         }
-        this.id=mineField[0][0].getId();
     }
 
 

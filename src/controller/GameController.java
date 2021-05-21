@@ -16,6 +16,7 @@ public class GameController implements Serializable {
     private ArrayList<Player> players=new ArrayList<Player>();
 
     private Player onTurn;
+    private boolean whetherCheat=false;
 
     private GamePanel gamePanel;
     private ScoreBoard scoreBoard;
@@ -29,6 +30,7 @@ public class GameController implements Serializable {
         this.id=gamePanel.getId();
         this.gamePanel=gamePanel;
         this.init( players);
+        System.out.println(this.players.size()+"yi");
         if (players.size()>0){
             this.onTurn = players.get(0);}
     }
@@ -36,7 +38,6 @@ public class GameController implements Serializable {
     /**
      * 初始化游戏。在开始游戏前，应先调用此方法，给予游戏必要的参数。
      *
-
      */
     public void init(ArrayList<Player> players) {
         if (players.size()>=1){
@@ -55,6 +56,7 @@ public class GameController implements Serializable {
     public void nextTurn() {
         usedStep++;
         //判断回合结束
+        System.out.println(players.size());
         if (usedStep>=MainFrame.stepCount){
             players2=scoreOrder(players);
             //判断获胜 //非单2人提前获胜
@@ -182,6 +184,8 @@ public class GameController implements Serializable {
     }
     public void setUsedStep(int usedStep){this.usedStep=usedStep;}
     public int getUsedStep(){return this.usedStep;}
+    public void setWhetherCheat(){this.whetherCheat=!this.whetherCheat;}
+    public boolean getWhetherCheat(){return this.whetherCheat;}
 
     public void readFileData(String fileName) {
         //todo: read date from file

@@ -27,7 +27,6 @@ public class MainFrame extends JFrame {
     private int mineCount;
     private int numberOfPlayers;
     private GameController controller;
-    public static boolean whetherCheat=false;
     public static int findedMine=0;
     public static int clickNum=0;
     public static  int stepCount=2;
@@ -109,9 +108,11 @@ public class MainFrame extends JFrame {
                         setLocationRelativeTo(null);
     
                         ArrayList<Player> playersArray=new ArrayList<Player>();
+
                         for (int i=0;i<numberOfPlayers;i++){
                             Player p1=new Player();
                             if (!playersArray.contains(p1)) {playersArray.add(p1);}
+                            else {playersArray.add(new Player());}
                         }
     
                         GamePanel gamePanel = new GamePanel(xCount, yCount, mineCount);
@@ -121,16 +122,10 @@ public class MainFrame extends JFrame {
                         ScoreBoard scoreBoard = new ScoreBoard(playersArray, xCount, yCount);
                         controller.setScoreBoard(scoreBoard);
     
-                        MainFrame frame = new MainFrame(xCount, yCount, mineCount);
+                        MainFrame frame = new MainFrame(xCount, yCount, mineCount,controller);
                         frame.add(gamePanel);
                         frame.add(scoreBoard);
-    
-                        JButton cheatButton = new JButton("Cheat"); //加入透视
-                        cheatButton.setSize(80, 20);
-                        cheatButton.setLocation(205, gamePanel.getHeight() + scoreBoard.getHeight());
-    
-                        add(cheatButton);
-                        cheatButton.addActionListener( new listenCheat() );
+
     
                         setVisible(false);
                         if(frameCount==1) {
@@ -372,42 +367,31 @@ public class MainFrame extends JFrame {
         menu_sounds.add(menuItem_sfxSwitch);
     }
 
-    public MainFrame(int xCount, int yCount, int mineCount) {
+    public MainFrame(int xCount, int yCount, int mineCount,GameController controller) {
+
+
         frameCount++;
         this.setLayout(null);
         this.setSize(yCount * GridComponent.gridSize + 20, xCount * GridComponent.gridSize + 200);
         this.setLocationRelativeTo(null);
 
-        ArrayList<Player> playersArray2=new ArrayList<Player>();
-        for (int i=0;i<numberOfPlayers;i++){
-            Player p1=new Player();
-            if (!playersArray2.contains(p1)) {playersArray2.add(p1);}
-        }
-
-
-        GamePanel gamePanel = new GamePanel(xCount, yCount, mineCount);
-        controller = new GameController(playersArray2, gamePanel);
+        this.controller=controller;
         this.setTitle("Mine Sweeper - ID: "+controller.getId());
         MainFrame.controllerMap.put(controller.getId(), controller);
-        controller.setGamePanel(gamePanel);
-        ScoreBoard scoreBoard = new ScoreBoard(playersArray2, xCount, yCount);
-        controller.setScoreBoard(scoreBoard);
 
         this.addMenuBar();
 
-        this.add(gamePanel);
-        this.add(scoreBoard);
 
         JButton cheatButton = new JButton("Cheat"); //加入透视
         cheatButton.setSize(80, 20);
-        cheatButton.setLocation(205, gamePanel.getHeight() + scoreBoard.getHeight());
+        cheatButton.setLocation(205, controller.getGamePanel().getHeight() + controller.getScoreBoard().getHeight());
 
         add(cheatButton);
         cheatButton.addActionListener( new listenCheat() );
 
         JButton clickBtn = new JButton("Click");
         clickBtn.setSize(80, 20);
-        clickBtn.setLocation(5, gamePanel.getHeight() + scoreBoard.getHeight());
+        clickBtn.setLocation(5, controller.getGamePanel().getHeight() + controller.getScoreBoard().getHeight());
         add(clickBtn);
         clickBtn.addActionListener(e -> {
             String fileName = JOptionPane.showInputDialog(this, "input here");
@@ -437,13 +421,12 @@ public class MainFrame extends JFrame {
         this.add(controller.getGamePanel());
         this.add(controller.getScoreBoard());
     }
-    public void setWhetherCheat(boolean whetherCheat){ MainFrame.whetherCheat =whetherCheat;}
-    public static boolean getWhetherCheat(){return whetherCheat;}
+
     public  class listenCheat implements ActionListener {
         public void actionPerformed(ActionEvent e){
-            whetherCheat= !whetherCheat;
-            for (int i=0;i<xCount;i++){
-                for (int j=0;j<yCount;j++){
+           controller.setWhetherCheat();
+            for (int i=0;i<controller.getGamePanel().getXCount();i++){
+                for (int j=0;j<controller.getGamePanel().getYCount();j++){
                     controller.getGamePanel().getGrid(i,j).repaint();
 
                 }

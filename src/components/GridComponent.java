@@ -99,7 +99,7 @@ public class GridComponent extends BasicComponent {
 
     public void draw(Graphics g) {
 
-        if (this.status == GridStatus.Covered&&!MainFrame.whetherCheat) {
+        if (this.status == GridStatus.Covered&&!MainFrame.controllerMap.get(this.id).getWhetherCheat()) {
             g.setColor(Color.CYAN);
             g.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
         }
@@ -117,7 +117,7 @@ public class GridComponent extends BasicComponent {
             g.setColor(Color.BLACK);
             if (content!=0){g.drawString(Integer.toString(content), getWidth() / 2 - 5, getHeight() / 2 + 5);}
         }
-        if (this.status == GridStatus.Flag&&!MainFrame.whetherCheat) {
+        if (this.status == GridStatus.Flag&&!MainFrame.controllerMap.get(this.id).getWhetherCheat()) {
 
             g.setColor(Color.LIGHT_GRAY);
             g.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
