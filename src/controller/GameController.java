@@ -16,12 +16,14 @@ public class GameController implements Serializable {
     private ArrayList<Player> players=new ArrayList<Player>();
 
     private Player onTurn;
+    private int onTurnNum=0;
     private boolean whetherCheat=false;
     public  int findedMine=0;
     public  int clickNum=0;
     private GamePanel gamePanel;
     private ScoreBoard scoreBoard;
     private int usedStep=0;
+    private boolean gameOver=false;
     ArrayList<Player> players2=new ArrayList<>();
 
     private String id;
@@ -57,26 +59,28 @@ public class GameController implements Serializable {
     public void nextTurn() {
         usedStep++;
         //判断回合结束
-        System.out.println(players.size());
+
         if (usedStep>=MainFrame.stepCount){
-            players2=scoreOrder(players);
+            players2=scoreOrder(players);onTurnNum++;System.out.println(onTurnNum);
             //判断获胜 //非单2人提前获胜
             if (players.size()>1&&gamePanel.getMineCount()-this.findedMine!=0&&
                     players2.get(0).getScore()-players2.get(1).getScore()>gamePanel.getMineCount()-this.findedMine) {
                 JLabel jLabel=new JLabel();
                 jLabel.setSize(400,100);
-                jLabel.setText(players2.get(0).getUserName()+" win"+", score and mis is "+players2.get(0).getScore()+" "+players2.get(0).getMistake());
+                jLabel.setText(players2.get(0).getUserName()+" win1"+", score and mis is "+players2.get(0).getScore()+" "+players2.get(0).getMistake());
                 this.giveWinner().add(jLabel);
                 jLabel.setLocation(100,100);
+                this.gameOver=true;
             }
             if (gamePanel.getMineCount()==this.findedMine){
                 if (players2.get(0).getScore()>players2.get(1).getScore()){
                     //第一名获胜
                     JLabel jLabel=new JLabel();
                     jLabel.setSize(400,100);
-                    jLabel.setText(players2.get(0).getUserName()+" win"+", score and mis is "+players2.get(0).getScore()+" "+players2.get(0).getMistake());
+                    jLabel.setText(players2.get(0).getUserName()+" win2"+", score and mis is "+players2.get(0).getScore()+" "+players2.get(0).getMistake());
                     this.giveWinner().add(jLabel);
                     jLabel.setLocation(100,100);
+                    this.gameOver=true;
 
                 }
                 else {
@@ -96,10 +100,11 @@ public class GameController implements Serializable {
                     }
                     if (people!=1){
                         jLabel.setText(s+"\n"+"have equal max score and mis: "+players2.get(0).getScore()+" "+min);}
-                    else {jLabel.setText(s+"win"+", score and mis "+players2.get(0).getScore()+" "+min);}
+                    else {jLabel.setText(s+"win3"+", score and mis "+players2.get(0).getScore()+" "+min);}
                     jLabel.setSize(400,100);
                     this.giveWinner().add(jLabel);
                     jLabel.setLocation(100,100);
+                    this.gameOver=true;
                     //System.exit(0);
                 }
             }
@@ -117,6 +122,10 @@ public class GameController implements Serializable {
         }
 
         scoreBoard.update();
+
+        if (this.onTurn.getUserName().equals("呆呆AI001")&& !gameOver){
+            MainFrame.controllerMap.get(this.id).getGamePanel().getAOperation();
+        }
 
     }
     public ArrayList<Player> scoreOrder(ArrayList<Player> players){

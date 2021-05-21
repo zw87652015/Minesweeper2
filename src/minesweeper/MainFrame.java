@@ -38,7 +38,7 @@ public class MainFrame extends JFrame {
     private JTextField customizedX, customizedY, customizedMineCount, promptX, promptY, promptMineCount, customizedNumberOfPlayers, promptSteps, customizedSteps;
     private ButtonGroup levelGroup, playersGroup;
     private JRadioButton basic, intermediate, advanced, customized, twoPlayers, customizedPlayers;
-    private JButton startButton, loadButton;
+    private JButton startButton, loadButton,AIButton,netButton;
 
     ImageIcon StartImage = new ImageIcon("E:\\Java\\Java Codes\\Project MineSweeper\\Minesweeper2\\src\\minesweeper\\Materials\\Start.png");
     ImageIcon LoadImage = new ImageIcon("E:\\Java\\Java Codes\\Project MineSweeper\\Minesweeper2\\src\\minesweeper\\Materials\\Load.png");
@@ -85,13 +85,15 @@ public class MainFrame extends JFrame {
             if(ae.getSource() == customizedPlayers) {
                 customizedNumberOfPlayers.setEditable(true);
             }
-            if(ae.getSource() == startButton) {
+
+            if(ae.getSource() == startButton||ae.getSource()==AIButton) {
                 Sounds.Music_button();
                 try {
                     xCount=Integer.parseInt(customizedX.getText());
                     yCount=Integer.parseInt(customizedY.getText());
                     mineCount=Integer.parseInt(customizedMineCount.getText());
                     numberOfPlayers=Integer.parseInt(customizedNumberOfPlayers.getText());
+                    if (ae.getSource()==AIButton){numberOfPlayers=2;}
                     stepCount=Integer.parseInt(customizedSteps.getText());
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Please input numbers only!", "Error!", 0, null);
@@ -114,6 +116,9 @@ public class MainFrame extends JFrame {
                             if (!playersArray.contains(p1)) {playersArray.add(p1);}
                             else {playersArray.add(new Player());}
                         }
+                        if (ae.getSource()==AIButton){
+                            playersArray.remove(0);
+                            playersArray.add(new Player("呆呆AI001"));}
     
                         GamePanel gamePanel = new GamePanel(xCount, yCount, mineCount);
                         controller = new GameController(playersArray,gamePanel);
@@ -126,7 +131,7 @@ public class MainFrame extends JFrame {
                         frame.add(gamePanel);
                         frame.add(scoreBoard);
 
-    
+
                         setVisible(false);
                         if(frameCount==1) {
                             setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -284,6 +289,24 @@ public class MainFrame extends JFrame {
         loadButton.setBorder(new EmptyBorder(0,0,0,0));
         jp.add(loadButton);
         loadButton.addActionListener(listener);
+
+        AIButton = new JButton();
+        AIButton.setText("人机对战");
+        AIButton.setContentAreaFilled(false);
+        AIButton.setOpaque(false);
+        AIButton.setBorder(new EmptyBorder(0,0,0,0));
+        jp.add(AIButton);
+        AIButton.addActionListener(listener);
+
+        netButton = new JButton(StartImage);
+        netButton.setText("联网对战");
+        netButton.setContentAreaFilled(false);
+        netButton.setOpaque(false);
+        netButton.setBorder(new EmptyBorder(0,0,0,0));
+        jp.add(netButton);
+        netButton.addActionListener(listener);
+
+
 
         add(jp);
     }

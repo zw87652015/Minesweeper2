@@ -163,6 +163,34 @@ public class GamePanel extends JPanel implements Serializable{
             MainFrame.controllerMap.get(this.id).setUsedStep(MainFrame.controllerMap.get(this.id).getUsedStep()-1);
             this.getGrid(row+1,col).onMouseLeftClicked();}
     }
+    public void getAOperation(){
+        int x=random.nextInt(xCount-2)+1;
+        int y=random.nextInt(yCount-2)+1;
+        int coveredNumber=0;int coveredMine=0;int xMine=0,yMine=0;
+        for (int i=x-1;i<=x+1;i++){
+            for (int j=y-1;j<=y+1;j++){
+                if (this.getGrid(i,j).getStatus()==GridStatus.Covered&&this.getGrid(i,j).getContent()==-1){
+                    coveredMine++;xMine=i;yMine=j;coveredNumber++;
+                }
+                else if (this.getGrid(i,j).getStatus()==GridStatus.Covered){coveredNumber++;}
+
+            }
+        }
+        if (coveredNumber==0){getAOperation();}
+        else {
+            if (coveredNumber>=4){this.getUnCovered(x-1,y-1).onMouseLeftClicked();}
+            else if (coveredMine>=1){this.getGrid(xMine,yMine).onMouseRightClicked();}
+            else {this.getUnCovered(x-1,y-1).onMouseLeftClicked();}
+        }
+    }
+    public GridComponent getUnCovered(int x,int y){
+        int i=random.nextInt(3);
+        int j=random.nextInt(3);
+        if (this.getGrid(x+i,y+j).getStatus()==GridStatus.Covered){
+            return this.getGrid(x+i,y+j);
+        }
+        else {return this.getUnCovered(x,y);}
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
