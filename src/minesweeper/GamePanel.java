@@ -2,12 +2,7 @@ package minesweeper;
 
 import components.GridComponent;
 import entity.GridStatus;
-import controller.GameController;
-import entity.GridStatus;
 import javax.swing.*;
-import javax.swing.plaf.PanelUI;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.Random;
