@@ -3,7 +3,6 @@ package components;
 import entity.GridStatus;
 import entity.Sounds;
 import minesweeper.MainFrame;
-import controller.GameController;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -54,7 +53,6 @@ public class GridComponent extends BasicComponent {
     public void onMouseLeftClicked() {
         Sounds.Music_dig();
         MainFrame.controllerMap.get(this.id).clickNum++;
-        //System.out.printf("Gird (%d,%d) is left-clicked.\n", row, col);
         if (this.status == GridStatus.Covered) {
             this.status = GridStatus.Clicked;
             if (this.getContent()==0){
@@ -82,7 +80,6 @@ public class GridComponent extends BasicComponent {
     public void onMouseRightClicked() {
         Sounds.Music_plant();
         MainFrame.controllerMap.get(this.id).clickNum++;;
-        //System.out.printf("Gird (%d,%d) is right-clicked.\n", row, col);
         if (this.status == GridStatus.Covered) {
             this.status = GridStatus.Flag;
             repaint();
