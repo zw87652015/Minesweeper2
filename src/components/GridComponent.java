@@ -134,7 +134,6 @@ public class GridComponent extends BasicComponent {
             g.setColor(Color.RED);
             if (this.getContent()==-1){
                 g.drawImage(flag.getImage(), 5, 2, flag.getIconWidth(), flag.getIconHeight(), Color.LIGHT_GRAY, this);
-                //g.drawString("F", getWidth() / 2 - 5, getHeight() / 2 + 5);
             }
             else {this.status=GridStatus.Clicked;repaint();}
 
