@@ -119,7 +119,6 @@ public class MainFrame extends JFrame {
                             else {playersArray.add(new Player());}
                         }
                         if (ae.getSource()==AIButton){
-                            playersArray.remove(0);
                             playersArray.add(new Player("呆呆AI001"));
                         }
                         GamePanel gamePanel = new GamePanel(xCount, yCount, mineCount);
