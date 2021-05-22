@@ -81,6 +81,7 @@ public class GameController implements Serializable {
                 this.gameOver=true;
 
             }
+
             
             else {
                 //找到所有相等,平局,比较mistake
