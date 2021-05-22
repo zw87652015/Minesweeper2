@@ -3,6 +3,8 @@ package controller;
 import minesweeper.GamePanel;
 import components.GridComponent;
 import java.io.Serializable;
+
+import minesweeper.GameTime;
 import minesweeper.MainFrame;
 import entity.Player;
 import minesweeper.ScoreBoard;
@@ -22,6 +24,7 @@ public class GameController implements Serializable {
     public  int clickNum=0;
     private GamePanel gamePanel;
     private ScoreBoard scoreBoard;
+    private GameTime gameTime;
     private int usedStep=0;
     private boolean gameOver=false;
     ArrayList<Player> players2=new ArrayList<>();
@@ -29,13 +32,15 @@ public class GameController implements Serializable {
     private String id;
     private int numberOfPlayers;
 
-    public GameController(ArrayList<Player> players,GamePanel gamePanel) {
+    public GameController(ArrayList<Player> players,GamePanel gamePanel,GameTime gameTime) {
         this.id=gamePanel.getId();
+        gameTime.setId(gamePanel.getId());
         this.gamePanel=gamePanel;
         this.init( players);
         System.out.println(this.players.size()+"yi");
         if (players.size()>0){
-            this.onTurn = players.get(0);}
+            this.onTurn = players.get(0);
+        gameTime.setPlayer(onTurn);}
     }
 
     /**
@@ -82,7 +87,7 @@ public class GameController implements Serializable {
 
             }
 
-            
+
             else {
                 //找到所有相等,平局,比较mistake
                 JLabel jLabel=new JLabel();
@@ -120,6 +125,8 @@ public class GameController implements Serializable {
 
 
             usedStep=0;
+            gameTime.setPlayer(onTurn);
+            gameTime.uptime();
             //System.out.println("Now it is " + onTurn.getUserName() + "'s turn.");
 
         }
@@ -198,6 +205,8 @@ public class GameController implements Serializable {
     public int getUsedStep(){return this.usedStep;}
     public void setWhetherCheat(){this.whetherCheat=!this.whetherCheat;}
     public boolean getWhetherCheat(){return this.whetherCheat;}
+    public void setGameTime(GameTime timer){this.gameTime=timer;}
+    public GameTime getGameTime(){return this.gameTime;}
 
     public void readFileData(String fileName) {
         //todo: read date from file
