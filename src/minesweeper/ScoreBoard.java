@@ -4,10 +4,10 @@ import components.GridComponent;
 import entity.Player;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.io.Serializable;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 /**
  * 此类的对象是一个计分板容器，通过传入玩家对象，
@@ -24,9 +24,8 @@ public class ScoreBoard extends JPanel implements Serializable{
      *
      */
     public ScoreBoard(ArrayList<Player> players, int xCount, int yCount) {
-        this.add(new JLabel("Score Board - "));
-        this.setSize(yCount * GridComponent.gridSize, 120);
-        this.setLocation(0, xCount * GridComponent.gridSize);
+        this.setSize(400, players.size()*40);
+        this.setLocation(yCount * GridComponent.gridSize+10, 0);
         for (int i=0;i<players.size();i++){
             this.labels.add(new JLabel());
         }
@@ -45,8 +44,10 @@ public class ScoreBoard extends JPanel implements Serializable{
      */
     public void update() {
         for (int i=0;i<labels.size();i++){
-            labels.get(i).setText(String.format("%s : %d score (+ %d mistake)",
+            labels.get(i).setText(String.format("%s: 总得分 %d 分，%d 次错误",
                     players.get(i).getUserName(), players.get(i).getScore(), players.get(i).getMistake()));
+            labels.get(i).setFont(MainFrame.MyFont(Font.PLAIN, 15));
+            labels.get(i).setForeground(new Color(232, 105, 74));
         }
     }
 

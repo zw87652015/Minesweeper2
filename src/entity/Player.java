@@ -9,6 +9,7 @@ public class Player implements Serializable{
     private String userName;
     private int score = 0;
     private int mistake = 0;
+    private static int playerCount=0;
 
     /**
      * 通过特定名字初始化一个玩家对象。
@@ -22,7 +23,8 @@ public class Player implements Serializable{
      * 通过默认名字初始化一个玩家对象。
      */
     public Player(){
-        userName = "User#"+(ran.nextInt(9000)+1000);
+        playerCount++;
+        this.userName="Player "+playerCount;
     }
 
     /**

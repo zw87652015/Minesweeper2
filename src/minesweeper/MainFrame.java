@@ -14,10 +14,11 @@ import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
 import java.io.File;
-import java.awt.event.ActionEvent;
-import java.awt.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MainFrame extends JFrame {
     public static HashMap<String, GameController> controllerMap = new HashMap<>();
@@ -40,8 +41,10 @@ public class MainFrame extends JFrame {
     private JRadioButton basic, intermediate, advanced, customized, twoPlayers, customizedPlayers;
     private JButton startButton, loadButton,AIButton,netButton;
 
-    ImageIcon StartImage = new ImageIcon("E:\\Java\\Java Codes\\Project MineSweeper\\Minesweeper2\\src\\minesweeper\\Materials\\Start.png");
-    ImageIcon LoadImage = new ImageIcon("E:\\Java\\Java Codes\\Project MineSweeper\\Minesweeper2\\src\\minesweeper\\Materials\\Load.png");
+    ImageIcon StartImage = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Start.png");
+    ImageIcon LoadImage = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Load.png");
+    ImageIcon AiImage = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Ai.png");
+    ImageIcon NetImage = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Net.png");
 
 
     private class RadioButtonListener implements ActionListener {
@@ -106,7 +109,7 @@ public class MainFrame extends JFrame {
     
                         setTitle("Mine Sweeper");
                         setLayout(null);
-                        setSize(yCount * GridComponent.gridSize + 20, xCount * GridComponent.gridSize + 200);
+                        setSize(yCount * GridComponent.gridSize + 20, xCount * GridComponent.gridSize + 300);
                         setLocationRelativeTo(null);
     
                         ArrayList<Player> playersArray=new ArrayList<Player>();
@@ -118,8 +121,8 @@ public class MainFrame extends JFrame {
                         }
                         if (ae.getSource()==AIButton){
                             playersArray.remove(0);
-                            playersArray.add(new Player("呆呆AI001"));}
-    
+                            playersArray.add(new Player("呆呆AI001"));
+                        }
                         GamePanel gamePanel = new GamePanel(xCount, yCount, mineCount);
                         controller = new GameController(playersArray,gamePanel);
                         MainFrame.controllerMap.put(controller.getId(), controller);
@@ -152,6 +155,37 @@ public class MainFrame extends JFrame {
             }
         }
     }
+	
+	public static Font MyFont(int ft,float fs) {
+		String fontUrl="out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\font.ttf";
+		Font definedFont;
+        InputStream is = null;  
+        BufferedInputStream bis = null;  
+        try {  
+            is =new FileInputStream(new File(fontUrl));
+            bis = new BufferedInputStream(is);  
+            definedFont = Font.createFont(Font.TRUETYPE_FONT, is);
+            //设置字体大小，float型
+            definedFont = definedFont.deriveFont(fs);
+            return definedFont;  
+        } catch (FontFormatException e) {  
+            e.printStackTrace();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        } finally { 
+            try {  
+                if (null != bis) {  
+                    bis.close();  
+                }  
+                if (null != is) {  
+                    is.close();  
+                }  
+            } catch (IOException e) {  
+                e.printStackTrace();  
+            }
+        }  
+        return null;
+    }
 
     public MainFrame(String frameName) {
         super("Mine Sweeper");
@@ -173,7 +207,7 @@ public class MainFrame extends JFrame {
         selectLevel.setHorizontalAlignment(JTextField.CENTER);
         selectLevel.setBorder(new EmptyBorder(0,0,0,0));
         selectLevel.setForeground(new Color(66,65,66));
-        selectLevel.setFont(new Font("叶根友毛笔行书简体-个人版",Font.PLAIN,30));
+        selectLevel.setFont(MyFont(Font.PLAIN, 30));
         levelGroup = new ButtonGroup();
         basic = new JRadioButton("初级", true);
         basic.setBorder(new EmptyBorder(0,0,0,0));
@@ -222,7 +256,7 @@ public class MainFrame extends JFrame {
         selectNumberOfPlayers.setBorder(new EmptyBorder(0,0,0,0));
         selectNumberOfPlayers.setHorizontalAlignment(JTextField.CENTER);
         selectNumberOfPlayers.setForeground(new Color(66,65,66));
-        selectNumberOfPlayers.setFont(new Font("叶根友毛笔行书简体-个人版",Font.PLAIN,30));
+        selectNumberOfPlayers.setFont(MyFont(Font.PLAIN, 30));
         playersGroup = new ButtonGroup();
         twoPlayers = new JRadioButton("双人", true);
         twoPlayers.setHorizontalAlignment(JRadioButton.CENTER);
@@ -273,8 +307,6 @@ public class MainFrame extends JFrame {
         customized.addActionListener(listener);
         twoPlayers.addActionListener(listener);
         customizedPlayers.addActionListener(listener);
-
-        jp.add(new JComponent(){{setBorder(new EmptyBorder(0,0,0,0));}});
         
         startButton = new JButton(StartImage);
         startButton.setContentAreaFilled(false);
@@ -290,16 +322,14 @@ public class MainFrame extends JFrame {
         jp.add(loadButton);
         loadButton.addActionListener(listener);
 
-        AIButton = new JButton();
-        AIButton.setText("人机对战");
+        AIButton = new JButton(AiImage);
         AIButton.setContentAreaFilled(false);
         AIButton.setOpaque(false);
         AIButton.setBorder(new EmptyBorder(0,0,0,0));
         jp.add(AIButton);
         AIButton.addActionListener(listener);
 
-        netButton = new JButton(StartImage);
-        netButton.setText("联网对战");
+        netButton = new JButton(NetImage);
         netButton.setContentAreaFilled(false);
         netButton.setOpaque(false);
         netButton.setBorder(new EmptyBorder(0,0,0,0));
@@ -315,21 +345,21 @@ public class MainFrame extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
 
-        JMenu menu_game = new JMenu("Game");
+        JMenu menu_game = new JMenu("游戏");
         menuBar.add(menu_game);
 
-        JMenuItem menuItem_newGame = new JMenuItem("New game...");
+        JMenuItem menuItem_newGame = new JMenuItem("新游戏...");
         menuItem_newGame.addActionListener((e) -> {
             dispose();
             MainFrame.frameCount--;
             SwingUtilities.invokeLater(() -> {
-                MainFrame starterFrame = new MainFrame("stargerFrame");
+                MainFrame starterFrame = new MainFrame("starterFrame");
                 starterFrame.setVisible(true);
             });
         });
         menu_game.add(menuItem_newGame);
 
-        JMenuItem menuItem_load = new JMenuItem("Load...");
+        JMenuItem menuItem_load = new JMenuItem("读取存档...");
         menuItem_load.addActionListener((e) -> {
             JFileChooser jfc = new JFileChooser();
             jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -341,7 +371,7 @@ public class MainFrame extends JFrame {
         });
         menu_game.add(menuItem_load);
 
-        JMenuItem menuItem_save = new JMenuItem("Save...");
+        JMenuItem menuItem_save = new JMenuItem("保存游戏...");
         menuItem_save.addActionListener((e) -> {
             JFileChooser jfc = new JFileChooser();
             jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -354,13 +384,13 @@ public class MainFrame extends JFrame {
         });
         menu_game.add(menuItem_save);
 
-        JMenuItem menuItem_endgame = new JMenuItem("Exit");
+        JMenuItem menuItem_endgame = new JMenuItem("退出");
         menuItem_endgame.addActionListener((e) -> {
             System.exit(0);
         });
         menu_game.add(menuItem_endgame);
 
-        JMenu menu_sounds = new JMenu("Sounds");
+        JMenu menu_sounds = new JMenu("声音");
         menuBar.add(menu_sounds);
 
         JMenuItem menuItem_bgmSwitch = new JMenuItem("BGM □");
@@ -376,14 +406,14 @@ public class MainFrame extends JFrame {
         });
         menu_sounds.add(menuItem_bgmSwitch);
 
-        JMenuItem menuItem_sfxSwitch = new JMenuItem("Sound Effects ☑");
+        JMenuItem menuItem_sfxSwitch = new JMenuItem("音效 ☑");
         menuItem_sfxSwitch.addActionListener((e) -> {
             sfxClickCount++;
             if(sfxClickCount%2==1) {
-                menuItem_sfxSwitch.setText("Sound Effects □");
+                menuItem_sfxSwitch.setText("音效 □");
                 Sounds.isSfxOn=false;
             } else {
-                menuItem_sfxSwitch.setText("Sound Effects ☑");
+                menuItem_sfxSwitch.setText("音效 ☑");
                 Sounds.isSfxOn=true;
             }
         });
@@ -395,7 +425,7 @@ public class MainFrame extends JFrame {
 
         frameCount++;
         this.setLayout(null);
-        this.setSize(yCount * GridComponent.gridSize + 20, xCount * GridComponent.gridSize + 200);
+        this.setSize(yCount * GridComponent.gridSize + 300, xCount * GridComponent.gridSize + 150 +numberOfPlayers*30);
         this.setLocationRelativeTo(null);
 
         this.controller=controller;
@@ -407,18 +437,10 @@ public class MainFrame extends JFrame {
 
         JButton cheatButton = new JButton("Cheat"); //加入透视
         cheatButton.setSize(80, 20);
-        cheatButton.setLocation(205, controller.getGamePanel().getHeight() + controller.getScoreBoard().getHeight());
+        cheatButton.setLocation(0, controller.getGamePanel().getHeight() + 10);
 
         add(cheatButton);
         cheatButton.addActionListener( new listenCheat() );
-
-        JButton clickBtn = new JButton("Click");
-        clickBtn.setSize(80, 20);
-        clickBtn.setLocation(5, controller.getGamePanel().getHeight() + controller.getScoreBoard().getHeight());
-        add(clickBtn);
-        clickBtn.addActionListener(e -> {
-            String fileName = JOptionPane.showInputDialog(this, "input here");
-        });
 
         this.setVisible(true);
         if(MainFrame.frameCount==1) {
@@ -430,9 +452,16 @@ public class MainFrame extends JFrame {
         frameCount++;
         this.setTitle("Mine Sweeper - ID: "+controller.getId());
         this.setLayout(null);
-        this.setSize(controller.getGamePanel().getYCount() * GridComponent.gridSize + 20, controller.getGamePanel().getXCount() * GridComponent.gridSize + 200);
+        this.setSize(controller.getGamePanel().getYCount() * GridComponent.gridSize + 200, controller.getGamePanel().getXCount() * GridComponent.gridSize + 200);
         this.setLocationRelativeTo(null);
         this.addMenuBar();
+        
+        JButton cheatButton = new JButton("Cheat");
+        cheatButton.setSize(80, 20);
+        cheatButton.setLocation(0, controller.getGamePanel().getHeight() + 10);
+        add(cheatButton);
+        cheatButton.addActionListener( new listenCheat() );
+
         MainFrame.controllerMap.put(controller.getId(), controller);
         for(GridComponent[] gcArray : controller.getGamePanel().getMineField()) {
             for(GridComponent gc : gcArray) {
