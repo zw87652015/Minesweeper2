@@ -71,7 +71,7 @@ public class GameController implements Serializable {
             this.gameOver=true;
         }
         if (gamePanel.getMineCount()==this.findedMine){
-            if (players2.get(0).getScore()>players2.get(1).getScore()){
+            if (players.size()>1&&players2.get(0).getScore()>players2.get(1).getScore()||players.size()==1){
                 //第一名获胜
                 JLabel jLabel=new JLabel();
                 jLabel.setSize(400,100);
