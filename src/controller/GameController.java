@@ -59,55 +59,56 @@ public class GameController implements Serializable {
     public void nextTurn() {
         usedStep++;
         //判断回合结束
-
-        if (usedStep>=MainFrame.stepCount){
-            players2=scoreOrder(players);onTurnNum++;System.out.println(onTurnNum);
-            //判断获胜 //非单2人提前获胜
-            if (players.size()>1&&gamePanel.getMineCount()-this.findedMine!=0&&
-                    players2.get(0).getScore()-players2.get(1).getScore()>gamePanel.getMineCount()-this.findedMine) {
+        players2=scoreOrder(players);onTurnNum++;System.out.println(onTurnNum);
+        //判断获胜 //非单2人提前获胜
+        if (players.size()>1&&gamePanel.getMineCount()-this.findedMine!=0&&
+                players2.get(0).getScore()-players2.get(1).getScore()>gamePanel.getMineCount()-this.findedMine) {
+            JLabel jLabel=new JLabel();
+            jLabel.setSize(400,100);
+            jLabel.setText(players2.get(0).getUserName()+" win1"+", score and mis is "+players2.get(0).getScore()+" "+players2.get(0).getMistake());
+            this.giveWinner().add(jLabel);
+            jLabel.setLocation(100,100);
+            this.gameOver=true;
+        }
+        if (gamePanel.getMineCount()==this.findedMine){
+            if (players2.get(0).getScore()>players2.get(1).getScore()){
+                //第一名获胜
                 JLabel jLabel=new JLabel();
                 jLabel.setSize(400,100);
-                jLabel.setText(players2.get(0).getUserName()+" win1"+", score and mis is "+players2.get(0).getScore()+" "+players2.get(0).getMistake());
+                jLabel.setText(players2.get(0).getUserName()+" win2"+", score and mis is "+players2.get(0).getScore()+" "+players2.get(0).getMistake());
                 this.giveWinner().add(jLabel);
                 jLabel.setLocation(100,100);
                 this.gameOver=true;
-            }
-            if (gamePanel.getMineCount()==this.findedMine){
-                if (players2.get(0).getScore()>players2.get(1).getScore()){
-                    //第一名获胜
-                    JLabel jLabel=new JLabel();
-                    jLabel.setSize(400,100);
-                    jLabel.setText(players2.get(0).getUserName()+" win2"+", score and mis is "+players2.get(0).getScore()+" "+players2.get(0).getMistake());
-                    this.giveWinner().add(jLabel);
-                    jLabel.setLocation(100,100);
-                    this.gameOver=true;
 
-                }
-                else {
-                    //找到所有相等,平局,比较mistake
-                    JLabel jLabel=new JLabel();
-                    int min=players2.get(0).getMistake();int people=0;
-                    for (Player player : players) {
-                        if (player.getScore() == players2.get(0).getScore() && player.getMistake() < players2.get(0).getMistake()) {
-                            min=player.getMistake();
-                        }
-                    }
-                    String s="";
-                    for (Player player:players){
-                        if (player.getScore()==players2.get(0).getScore()&&player.getMistake()==min){
-                            s=s+player.getUserName()+" ";people++;
-                        }
-                    }
-                    if (people!=1){
-                        jLabel.setText(s+"\n"+"have equal max score and mis: "+players2.get(0).getScore()+" "+min);}
-                    else {jLabel.setText(s+"win3"+", score and mis "+players2.get(0).getScore()+" "+min);}
-                    jLabel.setSize(400,100);
-                    this.giveWinner().add(jLabel);
-                    jLabel.setLocation(100,100);
-                    this.gameOver=true;
-                    //System.exit(0);
-                }
             }
+            else {
+                //找到所有相等,平局,比较mistake
+                JLabel jLabel=new JLabel();
+                int min=players2.get(0).getMistake();int people=0;
+                for (Player player : players) {
+                    if (player.getScore() == players2.get(0).getScore() && player.getMistake() < players2.get(0).getMistake()) {
+                        min=player.getMistake();
+                    }
+                }
+                String s="";
+                for (Player player:players){
+                    if (player.getScore()==players2.get(0).getScore()&&player.getMistake()==min){
+                        s=s+player.getUserName()+" ";people++;
+                    }
+                }
+                if (people!=1){
+                    jLabel.setText(s+"\n"+"have equal max score and mis: "+players2.get(0).getScore()+" "+min);}
+                else {jLabel.setText(s+"win3"+", score and mis "+players2.get(0).getScore()+" "+min);}
+                jLabel.setSize(400,100);
+                this.giveWinner().add(jLabel);
+                jLabel.setLocation(100,100);
+                this.gameOver=true;
+                //System.exit(0);
+            }
+        }
+
+        if (usedStep>=MainFrame.stepCount){
+
             //更改onTurn
             int a=players.indexOf(onTurn);
             if (a<players.size()-1){
