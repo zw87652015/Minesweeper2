@@ -186,7 +186,8 @@ public class GamePanel extends JPanel implements Serializable{
         }
         if (coveredNumber==0){getAOperation();}
         else {
-            if (coveredNumber>=5){this.getUnCovered(x-1,y-1).onMouseLeftClicked();}
+            if (coveredNumber>=5){if (coveredMine<=2){this.getUnCovered(x-1,y-1).onMouseLeftClicked();}
+                                   else {this.getUnCovered(x-1,y-1).onMouseRightClicked();}}
             else if (coveredMine>=1){this.getGrid(xMine,yMine).onMouseRightClicked();}
             else {this.getUnCovered(x-1,y-1).onMouseLeftClicked();}
         }
