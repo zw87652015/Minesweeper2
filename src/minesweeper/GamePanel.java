@@ -157,6 +157,19 @@ public class GamePanel extends JPanel implements Serializable{
         if (row!=xCount-1&&this.getGrid(row+1,col).getStatus()==GridStatus.Covered){
             MainFrame.controllerMap.get(this.id).setUsedStep(MainFrame.controllerMap.get(this.id).getUsedStep()-1);
             this.getGrid(row+1,col).onMouseLeftClicked();}
+        if (col!=0&&row!=0&&this.getGrid(row-1,col-1).getStatus()==GridStatus.Covered){
+            MainFrame.controllerMap.get(this.id).setUsedStep(MainFrame.controllerMap.get(this.id).getUsedStep()-1);
+            this.getGrid(row-1,col-1).onMouseLeftClicked();}
+        if (col!=0&&row!=xCount-1&&this.getGrid(row+1,col-1).getStatus()==GridStatus.Covered){
+            MainFrame.controllerMap.get(this.id).setUsedStep(MainFrame.controllerMap.get(this.id).getUsedStep()-1);
+            this.getGrid(row+1,col-1).onMouseLeftClicked();}
+        if (col!=yCount-1&&row!=0&&this.getGrid(row-1,col+1).getStatus()==GridStatus.Covered){
+            MainFrame.controllerMap.get(this.id).setUsedStep(MainFrame.controllerMap.get(this.id).getUsedStep()-1);
+            this.getGrid(row-1,col+1).onMouseLeftClicked();}
+        if (col!=yCount-1&&row!=xCount-1&&this.getGrid(row+1,col+1).getStatus()==GridStatus.Covered){
+            MainFrame.controllerMap.get(this.id).setUsedStep(MainFrame.controllerMap.get(this.id).getUsedStep()-1);
+            this.getGrid(row+1,col+1).onMouseLeftClicked();}
+
     }
     public void getAOperation(){
         int x=random.nextInt(xCount-2)+1;
@@ -173,7 +186,7 @@ public class GamePanel extends JPanel implements Serializable{
         }
         if (coveredNumber==0){getAOperation();}
         else {
-            if (coveredNumber>=4){this.getUnCovered(x-1,y-1).onMouseLeftClicked();}
+            if (coveredNumber>=5){this.getUnCovered(x-1,y-1).onMouseLeftClicked();}
             else if (coveredMine>=1){this.getGrid(xMine,yMine).onMouseRightClicked();}
             else {this.getUnCovered(x-1,y-1).onMouseLeftClicked();}
         }
