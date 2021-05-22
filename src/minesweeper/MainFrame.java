@@ -96,7 +96,6 @@ public class MainFrame extends JFrame {
                     yCount=Integer.parseInt(customizedY.getText());
                     mineCount=Integer.parseInt(customizedMineCount.getText());
                     numberOfPlayers=Integer.parseInt(customizedNumberOfPlayers.getText());
-                    if (ae.getSource()==AIButton){numberOfPlayers=2;}
                     stepCount=Integer.parseInt(customizedSteps.getText());
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Please input numbers only!", "Error!", 0, null);
