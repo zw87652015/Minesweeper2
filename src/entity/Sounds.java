@@ -14,6 +14,13 @@ public class Sounds {
         }
     }
 
+    public static void Music_boom() {
+        if(isSfxOn) {
+            MyThread t = new MyThread("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\boom.wav");
+            t.start();
+        }
+    }
+
     public static void Music_bgmOff() {
         isStopped=true;
         bgmThread.stop();

@@ -24,7 +24,7 @@ public class ScoreBoard extends JPanel implements Serializable{
      *
      */
     public ScoreBoard(ArrayList<Player> players, int xCount, int yCount) {
-        this.setSize(yCount * GridComponent.gridSize, players.size()*40);
+        this.setSize(400, players.size()*40);
         this.setLocation(yCount * GridComponent.gridSize+10, 0);
         for (int i=0;i<players.size();i++){
             this.labels.add(new JLabel());
@@ -44,9 +44,10 @@ public class ScoreBoard extends JPanel implements Serializable{
      */
     public void update() {
         for (int i=0;i<labels.size();i++){
-            labels.get(i).setText(String.format("%s %2d: 总得分 %d 分，%d 次错误",
-                    "Player ", i+1, players.get(i).getScore(), players.get(i).getMistake()));
+            labels.get(i).setText(String.format("%s: 总得分 %d 分，%d 次错误",
+                    players.get(i).getUserName(), players.get(i).getScore(), players.get(i).getMistake()));
             labels.get(i).setFont(MainFrame.MyFont(Font.PLAIN, 15));
+            labels.get(i).setForeground(new Color(232, 105, 74));
         }
     }
 

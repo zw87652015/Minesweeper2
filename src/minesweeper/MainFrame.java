@@ -43,6 +43,8 @@ public class MainFrame extends JFrame {
 
     ImageIcon StartImage = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Start.png");
     ImageIcon LoadImage = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Load.png");
+    ImageIcon AiImage = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Ai.png");
+    ImageIcon NetImage = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Net.png");
 
 
     private class RadioButtonListener implements ActionListener {
@@ -119,8 +121,8 @@ public class MainFrame extends JFrame {
                         }
                         if (ae.getSource()==AIButton){
                             playersArray.remove(0);
-                            playersArray.add(new Player("呆呆AI001"));}
-    
+                            playersArray.add(new Player("呆呆AI001"));
+                        }
                         GamePanel gamePanel = new GamePanel(xCount, yCount, mineCount);
                         controller = new GameController(playersArray,gamePanel);
                         MainFrame.controllerMap.put(controller.getId(), controller);
@@ -305,8 +307,6 @@ public class MainFrame extends JFrame {
         customized.addActionListener(listener);
         twoPlayers.addActionListener(listener);
         customizedPlayers.addActionListener(listener);
-
-        jp.add(new JComponent(){{setBorder(new EmptyBorder(0,0,0,0));}});
         
         startButton = new JButton(StartImage);
         startButton.setContentAreaFilled(false);
@@ -322,16 +322,14 @@ public class MainFrame extends JFrame {
         jp.add(loadButton);
         loadButton.addActionListener(listener);
 
-        AIButton = new JButton();
-        AIButton.setText("人机对战");
+        AIButton = new JButton(AiImage);
         AIButton.setContentAreaFilled(false);
         AIButton.setOpaque(false);
         AIButton.setBorder(new EmptyBorder(0,0,0,0));
         jp.add(AIButton);
         AIButton.addActionListener(listener);
 
-        netButton = new JButton(StartImage);
-        netButton.setText("联网对战");
+        netButton = new JButton(NetImage);
         netButton.setContentAreaFilled(false);
         netButton.setOpaque(false);
         netButton.setBorder(new EmptyBorder(0,0,0,0));
