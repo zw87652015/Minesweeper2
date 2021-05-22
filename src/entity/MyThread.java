@@ -44,7 +44,7 @@ public class MyThread extends Thread{
             sourceDataLine.drain();
             sourceDataLine.close();
         } catch (Exception e) {
-            System.out.println(e);
+            
         }
 	}
 }

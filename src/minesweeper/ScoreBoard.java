@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.io.Serializable;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -26,6 +27,8 @@ public class ScoreBoard extends JPanel implements Serializable{
     public ScoreBoard(ArrayList<Player> players, int xCount, int yCount) {
         this.setSize(400, players.size()*40);
         this.setLocation(yCount * GridComponent.gridSize+10, 0);
+        Border border = BorderFactory.createLineBorder(new Color(232, 105, 74));
+        this.setBorder(border);
         for (int i=0;i<players.size();i++){
             this.labels.add(new JLabel());
         }

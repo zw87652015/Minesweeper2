@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import java.io.BufferedInputStream;
@@ -33,7 +34,6 @@ public class MainFrame extends JFrame {
     public static  int stepCount=2;
     private static int bgmClickCount=0, sfxClickCount=0;
     private int level=1;//1, 2, 3, 4 for basic, intermediate, advanced and customized, respectively.
-
     private JPanel jp;
     private JTextField selectLevel, selectNumberOfPlayers;
     private JTextField customizedX, customizedY, customizedMineCount, promptX, promptY, promptMineCount, customizedNumberOfPlayers, promptSteps, customizedSteps;
@@ -45,7 +45,8 @@ public class MainFrame extends JFrame {
     ImageIcon LoadImage = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Load.png");
     ImageIcon AiImage = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Ai.png");
     ImageIcon NetImage = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Net.png");
-
+    ImageIcon Background1Image = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Background1.png");
+    ImageIcon Background2Image = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Background2.png");
 
     private class RadioButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
@@ -131,6 +132,9 @@ public class MainFrame extends JFrame {
                         MainFrame frame = new MainFrame(xCount, yCount, mineCount,controller);
                         frame.add(gamePanel);
                         frame.add(scoreBoard);
+                        BackgroundPanel bgp = new BackgroundPanel(Background2Image.getImage());
+                        bgp.setBounds(0,0,frame.getWidth(),frame.getHeight());
+                        frame.add(bgp);
 
 
                         setVisible(false);
@@ -185,9 +189,26 @@ public class MainFrame extends JFrame {
         return null;
     }
 
+    class BackgroundPanel extends JPanel  
+    {  
+        Image im;  
+        public BackgroundPanel(Image im)  
+        {
+            this.im=im;  
+            this.setOpaque(true);
+        }
+        public void paintComponent(Graphics g)
+        {  
+            super.paintComponents(g);
+            g.drawImage(im,0,0,this.getWidth(),this.getHeight(),this);
+        }
+    }
+
     public MainFrame(String frameName) {
         super("Mine Sweeper");
-        setBackground(new Color(226,226,226));
+        BackgroundPanel bgp = new BackgroundPanel(Background1Image.getImage());
+        bgp.setBounds(0,0,500,400);
+        add(bgp);
 
         this.xCount=9;
         this.yCount=9;
@@ -334,8 +355,6 @@ public class MainFrame extends JFrame {
         jp.add(netButton);
         netButton.addActionListener(listener);
 
-
-
         add(jp);
     }
 
@@ -419,8 +438,7 @@ public class MainFrame extends JFrame {
     }
 
     public MainFrame(int xCount, int yCount, int mineCount,GameController controller) {
-
-
+        Player.playerCount=0;
         frameCount++;
         this.setLayout(null);
         this.setSize(yCount * GridComponent.gridSize + 300, xCount * GridComponent.gridSize + 150 +numberOfPlayers*30);
@@ -432,11 +450,13 @@ public class MainFrame extends JFrame {
 
         this.addMenuBar();
 
-
         JButton cheatButton = new JButton("Cheat"); //加入透视
         cheatButton.setSize(80, 20);
         cheatButton.setLocation(0, controller.getGamePanel().getHeight() + 10);
-
+        cheatButton.setBackground(new Color(238, 234, 236));
+        cheatButton.setForeground(new Color(232, 105, 74));
+        Border border = BorderFactory.createLineBorder(new Color(232, 105, 74));
+        cheatButton.setBorder(border);
         add(cheatButton);
         cheatButton.addActionListener( new listenCheat() );
 
@@ -448,11 +468,16 @@ public class MainFrame extends JFrame {
 
     public MainFrame(GameController controller) {
         frameCount++;
+        Player.playerCount=0;
         this.setTitle("Mine Sweeper - ID: "+controller.getId());
         this.setLayout(null);
         this.setSize(controller.getGamePanel().getYCount() * GridComponent.gridSize + 200, controller.getGamePanel().getXCount() * GridComponent.gridSize + 200);
         this.setLocationRelativeTo(null);
         this.addMenuBar();
+
+        BackgroundPanel bgp = new BackgroundPanel(Background2Image.getImage());
+        bgp.setBounds(0,0,this.getWidth(),this.getHeight());
+        add(bgp);
         
         JButton cheatButton = new JButton("Cheat");
         cheatButton.setSize(80, 20);
