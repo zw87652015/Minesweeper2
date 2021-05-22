@@ -471,7 +471,7 @@ public class MainFrame extends JFrame {
         Player.playerCount=0;
         this.setTitle("Mine Sweeper - ID: "+controller.getId());
         this.setLayout(null);
-        this.setSize(controller.getGamePanel().getYCount() * GridComponent.gridSize + 200, controller.getGamePanel().getXCount() * GridComponent.gridSize + 200);
+        this.setSize(controller.getGamePanel().getYCount() * GridComponent.gridSize + 300, controller.getGamePanel().getXCount() * GridComponent.gridSize + 200);
         this.setLocationRelativeTo(null);
         this.addMenuBar();
 
@@ -482,6 +482,10 @@ public class MainFrame extends JFrame {
         JButton cheatButton = new JButton("Cheat");
         cheatButton.setSize(80, 20);
         cheatButton.setLocation(0, controller.getGamePanel().getHeight() + 10);
+        cheatButton.setBackground(new Color(238, 234, 236));
+        cheatButton.setForeground(new Color(232, 105, 74));
+        Border border = BorderFactory.createLineBorder(new Color(232, 105, 74));
+        cheatButton.setBorder(border);
         add(cheatButton);
         cheatButton.addActionListener( new listenCheat() );
 
@@ -512,8 +516,6 @@ public class MainFrame extends JFrame {
     public void setxCount(int xCount){
         this.xCount= xCount;
     }
-
-
     public void setyCount(int yCount){
         this.yCount=yCount;
     }

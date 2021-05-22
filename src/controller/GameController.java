@@ -33,7 +33,6 @@ public class GameController implements Serializable {
         this.id=gamePanel.getId();
         this.gamePanel=gamePanel;
         this.init( players);
-        System.out.println(this.players.size()+"yi");
         if (players.size()>0){
             this.onTurn = players.get(0);}
     }
@@ -59,7 +58,7 @@ public class GameController implements Serializable {
     public void nextTurn() {
         usedStep++;
         //判断回合结束
-        players2=scoreOrder(players);onTurnNum++;System.out.println(onTurnNum);
+        players2=scoreOrder(players);onTurnNum++;
         //判断获胜 //非单2人提前获胜
         if (players.size()>1&&gamePanel.getMineCount()-this.findedMine!=0&&
                 players2.get(0).getScore()-players2.get(1).getScore()>gamePanel.getMineCount()-this.findedMine) {
@@ -114,15 +113,10 @@ public class GameController implements Serializable {
             if (a<players.size()-1){
                 this.onTurn = players.get(a+1);}
             else {this.onTurn=players.get(0);}
-           // System.out.println("Now it is " + onTurn.getUserName() + "'s turn.");
-
-
             usedStep=0;
-            //System.out.println("Now it is " + onTurn.getUserName() + "'s turn.");
-
         }
 
-        scoreBoard.update();
+        scoreBoard.update(onTurn);
 
         if (this.onTurn.getUserName().equals("呆呆AI001")&& !gameOver){
             MainFrame.controllerMap.get(this.id).getGamePanel().getAOperation();
