@@ -42,6 +42,7 @@ public class GridComponent extends BasicComponent {
                     onMouseLeftClicked();
                 }
                 if(e.getButton()==3){
+
                     onMouseRightClicked();
                 }
             }
@@ -76,7 +77,8 @@ public class GridComponent extends BasicComponent {
                 MainFrame.controllerMap.get(this.id).getOnTurnPlayer().addMistake();
                 MainFrame.controllerMap.get(this.id).findedMine++;
             }repaint();
-            MainFrame.controllerMap.get(id).nextTurn();
+            if (!MainFrame.controllerMap.get(id).getGameOver()){
+                MainFrame.controllerMap.get(id).nextTurn();}
         }
 
         //TODO: 在左键点击一个格子的时候，还需要做什么？
@@ -94,7 +96,8 @@ public class GridComponent extends BasicComponent {
             if (this.getContent()==-1){
                 MainFrame.controllerMap.get(this.id).findedMine++;
                 MainFrame.controllerMap.get(this.id).getOnTurnPlayer().addScore();}
-            MainFrame.controllerMap.get(id).nextTurn();
+            if (!MainFrame.controllerMap.get(id).getGameOver()){
+                MainFrame.controllerMap.get(id).nextTurn();}
         }
     }
 
