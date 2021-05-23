@@ -28,8 +28,8 @@ public class GridComponent extends BasicComponent {
     Color color1=new Color(0,0,255,27);
     Color color2=new Color(255,222,23,27);
 
-    ImageIcon flag = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Flag.png");
-    ImageIcon boom = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Boom.png");
+    ImageIcon flag = new ImageIcon("Materials\\Flag.png");
+    ImageIcon boom = new ImageIcon("Materials\\Boom.png");
 
 
     public void addListener(){

@@ -41,12 +41,12 @@ public class MainFrame extends JFrame {
     private JRadioButton basic, intermediate, advanced, customized, twoPlayers, customizedPlayers;
     private JButton startButton, loadButton,AIButton,netButton;
 
-    ImageIcon StartImage = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Start.png");
-    ImageIcon LoadImage = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Load.png");
-    ImageIcon AiImage = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Ai.png");
-    ImageIcon NetImage = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Net.png");
-    ImageIcon Background1Image = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Background1.png");
-    ImageIcon Background2Image = new ImageIcon("out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\Background2.png");
+    ImageIcon StartImage = new ImageIcon("Materials\\Start.png");
+    ImageIcon LoadImage = new ImageIcon("Materials\\Load.png");
+    ImageIcon AiImage = new ImageIcon("Materials\\Ai.png");
+    ImageIcon NetImage = new ImageIcon("Materials\\Net.png");
+    ImageIcon Background1Image = new ImageIcon("Materials\\Background1.png");
+    ImageIcon Background2Image = new ImageIcon("Materials\\Background2.png");
 
     private class RadioButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent ae) {
@@ -165,7 +165,7 @@ public class MainFrame extends JFrame {
     }
 	
 	public static Font MyFont(int ft,float fs) {
-		String fontUrl="out\\production\\MineSweeper-Demo\\minesweeper\\Materials\\font.ttf";
+		String fontUrl="Materials\\font.ttf";
 		Font definedFont;
         InputStream is = null;  
         BufferedInputStream bis = null;  
@@ -477,7 +477,7 @@ public class MainFrame extends JFrame {
         Player.playerCount=0;
         this.setTitle("Mine Sweeper - ID: "+controller.getId());
         this.setLayout(null);
-        this.setSize(controller.getGamePanel().getYCount() * GridComponent.gridSize + 200, controller.getGamePanel().getXCount() * GridComponent.gridSize + 200);
+        this.setSize(controller.getGamePanel().getYCount() * GridComponent.gridSize + 300, controller.getGamePanel().getXCount() * GridComponent.gridSize + 200);
         this.setLocationRelativeTo(null);
         this.addMenuBar();
 
@@ -488,6 +488,10 @@ public class MainFrame extends JFrame {
         JButton cheatButton = new JButton("Cheat");
         cheatButton.setSize(80, 20);
         cheatButton.setLocation(0, controller.getGamePanel().getHeight() + 10);
+        cheatButton.setBackground(new Color(238, 234, 236));
+        cheatButton.setForeground(new Color(232, 105, 74));
+        Border border = BorderFactory.createLineBorder(new Color(232, 105, 74));
+        cheatButton.setBorder(border);
         add(cheatButton);
         cheatButton.addActionListener( new listenCheat() );
 
@@ -518,8 +522,6 @@ public class MainFrame extends JFrame {
     public void setxCount(int xCount){
         this.xCount= xCount;
     }
-
-
     public void setyCount(int yCount){
         this.yCount=yCount;
     }

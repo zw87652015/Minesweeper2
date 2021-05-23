@@ -25,7 +25,7 @@ public class ScoreBoard extends JPanel implements Serializable{
      *
      */
     public ScoreBoard(ArrayList<Player> players, int xCount, int yCount) {
-        this.setSize(400, players.size()*40);
+        this.setSize(yCount*GridComponent.gridSize+10, players.size()*40);
         this.setLocation(yCount * GridComponent.gridSize+10, 0);
         Border border = BorderFactory.createLineBorder(new Color(232, 105, 74));
         this.setBorder(border);
@@ -38,20 +38,27 @@ public class ScoreBoard extends JPanel implements Serializable{
         }
 
         this.setLayout(new BoxLayout(this, 1));
-        update();
+        update(players.get(0));
     }
 
     /**
      * 刷新计分板的数据。
      * 计分板会自动重新获取玩家的分数，并更新显示。
      */
-    public void update() {
+    public void update(Player onTurnPlayer) {
         for (int i=0;i<labels.size();i++){
-            labels.get(i).setText(String.format("%s: 总得分 %d 分，%d 次错误",
-                    players.get(i).getUserName(), players.get(i).getScore(), players.get(i).getMistake()));
-            labels.get(i).setFont(MainFrame.MyFont(Font.PLAIN, 15));
-            labels.get(i).setForeground(new Color(232, 105, 74));
-        }
+            if(players.get(i)==onTurnPlayer) {
+                labels.get(i).setText(String.format("%s: 总得分 %d 分，%d 失误",
+                        players.get(i).getUserName(), players.get(i).getScore(), players.get(i).getMistake()));
+                labels.get(i).setFont(MainFrame.MyFont(Font.PLAIN, 15));
+                labels.get(i).setForeground(new Color(232, 105, 74));
+            } else {
+                labels.get(i).setText(String.format("%s: 总得分 %d 分，%d 失误",
+                        players.get(i).getUserName(), players.get(i).getScore(), players.get(i).getMistake()));
+                labels.get(i).setFont(MainFrame.MyFont(Font.PLAIN, 15));
+                labels.get(i).setForeground(new Color(66,66,66));
+            }
+    }
     }
 
 }
