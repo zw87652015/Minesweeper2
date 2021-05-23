@@ -19,6 +19,7 @@ public class GameTime extends JPanel {
     myTimer myTime=new myTimer();
     private int time=10;
     private String id;
+    private boolean gameRun=true;
 
 
     public GameTime(int xCount, int yCount) {
@@ -28,14 +29,16 @@ public class GameTime extends JPanel {
         this.setFocusable(true);
         this.setBackground(Color.WHITE);
         this.add(jLabel);
+
         t.schedule(myTime, 0,1000);
 
     }
     class myTimer extends TimerTask {
         @Override
         public void run() {
+            if (gameRun){
+            time--;}
 
-            time--;
             if (time<=0){MainFrame.controllerMap.get(id).setUsedStep(99);MainFrame.controllerMap.get(id).nextTurn();}
             jLabel.setText(player.getUserName()+":"+String.valueOf(time));
         }
@@ -46,5 +49,6 @@ public class GameTime extends JPanel {
     }
     public void setPlayer(Player player){this.player=player;}
     public void setId(String id){this.id=id;}
+    public void  setGameRun(boolean gameRun){this.gameRun=gameRun;}
 
 }

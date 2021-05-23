@@ -73,6 +73,7 @@ public class GameController implements Serializable {
             this.giveWinner().add(jLabel);
             jLabel.setLocation(100,100);
             this.gameOver=true;
+            gameTime.setGameRun(false);
         }
         if (gamePanel.getMineCount()==this.findedMine){
             if (players.size()>1&&players2.get(0).getScore()>players2.get(1).getScore()||players.size()==1){
@@ -83,6 +84,7 @@ public class GameController implements Serializable {
                 this.giveWinner().add(jLabel);
                 jLabel.setLocation(100,100);
                 this.gameOver=true;
+                gameTime.setGameRun(false);
 
             }
 
@@ -109,6 +111,7 @@ public class GameController implements Serializable {
                 this.giveWinner().add(jLabel);
                 jLabel.setLocation(100,100);
                 this.gameOver=true;
+                gameTime.setGameRun(false);
                 //System.exit(0);
             }
         }
@@ -203,7 +206,7 @@ public class GameController implements Serializable {
     public boolean getWhetherCheat(){return this.whetherCheat;}
     public void setGameTime(GameTime timer){this.gameTime=timer;}
     public GameTime getGameTime(){return this.gameTime;}
-
+    public boolean getGameOver(){return this.gameOver;}
     public void readFileData(String fileName) {
         //todo: read date from file
 
