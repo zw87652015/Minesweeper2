@@ -8,6 +8,8 @@ import entity.Sounds;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
+import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,11 +17,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.net.Socket;
 
 public class MainFrame extends JFrame {
     public static HashMap<String, GameController> controllerMap = new HashMap<>();
@@ -90,7 +88,7 @@ public class MainFrame extends JFrame {
                 customizedNumberOfPlayers.setEditable(true);
             }
 
-            if(ae.getSource() == startButton||ae.getSource()==AIButton) {
+            if(ae.getSource() == startButton||ae.getSource()==AIButton||ae.getSource()==netButton) {
                 Sounds.Music_button();
                 try {
                     xCount=Integer.parseInt(customizedX.getText());
@@ -121,6 +119,19 @@ public class MainFrame extends JFrame {
                         }
                         if (ae.getSource()==AIButton){
                             playersArray.add(new Player("呆呆AI001"));
+                        }
+                        //if (ae.getSource()==netButton){
+                           // playersArray.removeAll(playersArray);
+                       // }
+                        if (ae.getSource()==netButton){
+                            try {
+                                GameSever g1=new GameSever();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+
+
                         }
 
 
