@@ -17,7 +17,7 @@ public class GameTime extends JPanel {
     JLabel jLabel=new JLabel();
     Timer t=new Timer();
     myTimer myTime=new myTimer();
-    private int time=10;
+    private int time=MainFrame.stepCount*20;
     private String id;
     private boolean gameRun=true;
 
@@ -45,7 +45,7 @@ public class GameTime extends JPanel {
     }
 
     public void uptime(){
-        this.time=10;
+        this.time=MainFrame.stepCount*20;
     }
     public void setPlayer(Player player){this.player=player;}
     public void setId(String id){this.id=id;}
