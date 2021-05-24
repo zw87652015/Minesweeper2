@@ -1,16 +1,13 @@
 package controller;
 
 import minesweeper.GamePanel;
-import components.GridComponent;
+
 import java.io.Serializable;
 
-import minesweeper.GameTime;
 import minesweeper.MainFrame;
 import entity.Player;
 import minesweeper.ScoreBoard;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class GameController implements Serializable {
@@ -24,7 +21,7 @@ public class GameController implements Serializable {
     public  int clickNum=0;
     private GamePanel gamePanel;
     private ScoreBoard scoreBoard;
-    private GameTime gameTime;
+    //private GameTime gameTime;
     private int usedStep=0;
     private boolean gameOver=false;
     ArrayList<Player> players2=new ArrayList<>();
@@ -32,14 +29,15 @@ public class GameController implements Serializable {
     private String id;
     private int numberOfPlayers;
 
-    public GameController(ArrayList<Player> players,GamePanel gamePanel,GameTime gameTime) {
+    public GameController(ArrayList<Player> players,GamePanel gamePanel) {
         this.id=gamePanel.getId();
-        gameTime.setId(gamePanel.getId());
+        //gameTime.setId(gamePanel.getId());
         this.gamePanel=gamePanel;
         this.init( players);
         if (players.size()>0){
             this.onTurn = players.get(0);
-        gameTime.setPlayer(onTurn);}
+        //gameTime.setPlayer(onTurn);
+        }
     }
 
     /**
@@ -73,7 +71,7 @@ public class GameController implements Serializable {
             this.giveWinner().add(jLabel);
             jLabel.setLocation(100,100);
             this.gameOver=true;
-            gameTime.setGameRun(false);
+            //gameTime.setGameRun(false);
         }
         if (gamePanel.getMineCount()==this.findedMine){
             if (players.size()>1&&players2.get(0).getScore()>players2.get(1).getScore()||players.size()==1){
@@ -84,7 +82,7 @@ public class GameController implements Serializable {
                 this.giveWinner().add(jLabel);
                 jLabel.setLocation(100,100);
                 this.gameOver=true;
-                gameTime.setGameRun(false);
+                //gameTime.setGameRun(false);
 
             }
 
@@ -111,7 +109,7 @@ public class GameController implements Serializable {
                 this.giveWinner().add(jLabel);
                 jLabel.setLocation(100,100);
                 this.gameOver=true;
-                gameTime.setGameRun(false);
+                //gameTime.setGameRun(false);
                 //System.exit(0);
             }
         }
@@ -124,8 +122,8 @@ public class GameController implements Serializable {
                 this.onTurn = players.get(a+1);}
             else {this.onTurn=players.get(0);}
             usedStep=0;
-            gameTime.setPlayer(onTurn);
-            gameTime.uptime();
+            //gameTime.setPlayer(onTurn);
+            //gameTime.uptime();
             //System.out.println("Now it is " + onTurn.getUserName() + "'s turn.");
 
         }
@@ -204,8 +202,8 @@ public class GameController implements Serializable {
     public int getUsedStep(){return this.usedStep;}
     public void setWhetherCheat(){this.whetherCheat=!this.whetherCheat;}
     public boolean getWhetherCheat(){return this.whetherCheat;}
-    public void setGameTime(GameTime timer){this.gameTime=timer;}
-    public GameTime getGameTime(){return this.gameTime;}
+    //public void setGameTime(GameTime timer){this.gameTime=timer;}
+    //public GameTime getGameTime(){return this.gameTime;}
     public boolean getGameOver(){return this.gameOver;}
     public void readFileData(String fileName) {
         //todo: read date from file

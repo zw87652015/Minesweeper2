@@ -136,19 +136,19 @@ public class MainFrame extends JFrame {
 
 
                         GamePanel gamePanel = new GamePanel(xCount, yCount, mineCount);
-                        GameTime gameTime =new GameTime(xCount,yCount);
-                        controller = new GameController(playersArray,gamePanel,gameTime);
+                        //GameTime gameTime =new GameTime(xCount,yCount);
+                        controller = new GameController(playersArray,gamePanel);
                         MainFrame.controllerMap.put(controller.getId(), controller);
                         controller.setGamePanel(gamePanel);
                         ScoreBoard scoreBoard = new ScoreBoard(playersArray, xCount, yCount);
                         controller.setScoreBoard(scoreBoard);
 
-                        controller.setGameTime(gameTime);
+                        //controller.setGameTime(gameTime);
     
                         MainFrame frame = new MainFrame(xCount, yCount, mineCount,controller);
                         frame.add(gamePanel);
                         frame.add(scoreBoard);
-                        frame.add(gameTime);
+                        //frame.add(gameTime);
                         BackgroundPanel bgp = new BackgroundPanel(Background2Image.getImage());
                         bgp.setBounds(0,0,frame.getWidth(),frame.getHeight());
                         frame.add(bgp);
